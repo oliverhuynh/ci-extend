@@ -5,7 +5,6 @@ VERSION=1.0.0
 	SSH_PRIVATE_KEY="$(SSH_PRIVATE_KEY)"
 
 dockerfile:
-	cp ./node_modules/gitlab-ci-extend/Dockerfile ./Dockerfile.gce
 	cd node_modules/gitlab-ci-extend && ./make/dockerfile $(CURDIR)
 
 deploy:
