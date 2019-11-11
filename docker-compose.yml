@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  adminui:
+    # build: .
+    image: gitlab-ci:latest
+    container_name: dp_gitlab_ci
+    volumes:
+      - .:/usr/app
+    command: >
+      bash -c "tail -F *.log"

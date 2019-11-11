@@ -1,4 +1,4 @@
 #!/bin/bash
 
-rsync -ravz --delete . deploy:/etc/antbuddy/tools/admin-ui/
-ssh deploy 'bash -c "export NVM_DIR=\"\$HOME/.nvm\" && \. \"\$NVM_DIR/nvm.sh\" && pm2 delete \"Admin UI\" || pm2 list; cd /etc/antbuddy/tools/admin-ui/ && pm2 start npm --name \"Admin UI\" -- start || pm2 list"; sudo nginx -t && sudo service nginx reload' && ls -la
+rsync -ravz --delete . deploy:$DEPLOYDIR/
+ssh deploy 'bash -c "export NVM_DIR=\"\$HOME/.nvm\" && \. \"\$NVM_DIR/nvm.sh\" && '$RELOADCOMMAND'"; sudo nginx -t && sudo service nginx reload' && ls -la

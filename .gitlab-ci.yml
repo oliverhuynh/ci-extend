@@ -17,6 +17,9 @@ before_script:
   - mkdir -p ~/.ssh 2>/dev/null
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config
   - echo -e "Host deploy\n${SSH_HOST_CONFIG}" >> ~/.ssh/config
+  - export RELOADCOMMAND="RELOADCOMMANDTOKEN"
+  - export INSTANCE="INSTANCETOKEN"
+  - export DEPLOYDIR="DEPLOYDIRTOKEN"
 
 #
 deploy_staging:
@@ -24,6 +27,6 @@ deploy_staging:
   environment:
     name: staging
   script:
-    - ./make/rsyncandstart
+    - ./node_modules/gitlab-ci-extend/make/rsyncandstart
   only:
     - 1.x
