@@ -5,10 +5,10 @@ VERSION=1.0.0
 	SSH_PRIVATE_KEY="$(SSH_PRIVATE_KEY)"
 
 dockerfile:
-	cd node_modules/gitlab-ci-extend && ./make/dockerfile $(CURDIR)
+	. .deploy && cd node_modules/gitlab-ci-extend && ./make/dockerfile $(CURDIR)
 
 deploy:
-	cd node_modules/gitlab-ci-extend && ./make/deploy
+	. .deploy && cd node_modules/gitlab-ci-extend && ./make/deploy
 
 
 .PHONY: dockerfile deploy
