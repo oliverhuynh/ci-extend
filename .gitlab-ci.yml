@@ -1,0 +1,29 @@
+# IMPORTANT: This file is copied from make deploy and make dockerfile
+
+image: node:10.17.0-jessie
+
+before_script:
+  - apt-get update
+  - apt-get install -y gettext-base rsync
+  - npm install
+  - mkdir -p ~/.ssh 2>/dev/null
+  - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+  - git submodule sync --recursive
+  - git submodule update --init --recursive --remote
+  - echo $SSH_PRIVATE_KEY
+  - which ssh-agent || ( apt-get install -qq openssh-client )
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh 2>/dev/null
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config
+  - echo -e "Host deploy\n${SSH_HOST_CONFIG}" >> ~/.ssh/config
+
+#
+deploy_staging:
+  type: deploy
+  environment:
+    name: staging
+  script:
+    - ./make/rsyncandstart
+  only:
+    - 1.x

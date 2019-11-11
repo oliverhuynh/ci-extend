@@ -1,0 +1,6 @@
+#!/bin/bash
+
+docker stop dp_admin_ui 2>/dev/null
+docker rm dp_admin_ui 2>/dev/null
+docker image build -t admin-ui .
+docker container run --name dp_admin_ui -d admin-ui
