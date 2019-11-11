@@ -1,0 +1,19 @@
+{
+  "name": "gitlab-ci-extend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antbuddy-share/gitlab-ci-extend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antbuddy-share/gitlab-ci-extend/issues"
+  },
+  "homepage": "https://github.com/antbuddy-share/gitlab-ci-extend#readme"
+}
