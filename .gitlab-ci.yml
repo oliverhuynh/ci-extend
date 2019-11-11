@@ -27,6 +27,6 @@ deploy_staging:
   environment:
     name: staging
   script:
-    - ./node_modules/gitlab-ci-extend/make/rsyncandstart
+    - export RELOADCOMMAND="RELOADCOMMANDTOKEN" && export INSTANCE="INSTANCETOKEN" && export DEPLOYDIR="DEPLOYDIRTOKEN" && /node_modules/gitlab-ci-extend/make/rsyncandstart
   only:
     - 1.x
