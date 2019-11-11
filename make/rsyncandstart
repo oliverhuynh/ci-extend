@@ -1,5 +1,10 @@
 #!/bin/bash
 
-echo "VERY STUPID rsync -ravz --delete . deploy:$DEPLOYDIR/"
+if [[ ${DEPLOYDIR} != *"/etc/antbuddy"* ]];then
+    echo "This script is dangerous. Please ln -s your deploy dir '$DEPLOYDIR' to under /etc/antbuddy folder"
+    exit
+fi
+
+rsync -ravz --delete . deploy:$DEPLOYDIR/
 # rsync -ravz --delete . deploy:$DEPLOYDIR/
-echo 'bash -c "export NVM_DIR=\"\$HOME/.nvm\" && \. \"\$NVM_DIR/nvm.sh\" && '$RELOADCOMMAND'"; sudo nginx -t && sudo service nginx reload' && ls -la
+ssh deploy 'bash -c "export NVM_DIR=\"\$HOME/.nvm\" && \. \"\$NVM_DIR/nvm.sh\" && '$RELOADCOMMAND'"; sudo nginx -t && sudo service nginx reload' && ls -la
