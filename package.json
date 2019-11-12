@@ -1,19 +1,42 @@
 {
-  "name": "gitlab-ci-extend",
-  "version": "1.0.6",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "_from": "git+https://github.com/antbuddy-share/gitlab-ci-extend.git",
+  "_id": "gitlab-ci-extend@1.0.7",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/gitlab-ci-extend",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/antbuddy-share/gitlab-ci-extend.git",
+    "rawSpec": "https://github.com/antbuddy-share/gitlab-ci-extend.git",
+    "saveSpec": "git+https://github.com/antbuddy-share/gitlab-ci-extend.git",
+    "fetchSpec": "https://github.com/antbuddy-share/gitlab-ci-extend.git",
+    "gitCommittish": null
   },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/antbuddy-share/gitlab-ci-extend.git#aa40fde7e225c13fb3ff7f9b0f014ec1ec1dcc34",
+  "_spec": "https://github.com/antbuddy-share/gitlab-ci-extend.git",
+  "_where": "/home/oliverhuynh/projects/ab-dockers-on-premise/.antbuddy/onboarding/src",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/antbuddy-share/gitlab-ci-extend/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "- Setup node_modules - Init all related modules - Rsync - Start the node - Reload nginx if available",
+  "homepage": "https://github.com/antbuddy-share/gitlab-ci-extend#readme",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "gitlab-ci-extend",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antbuddy-share/gitlab-ci-extend.git"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/antbuddy-share/gitlab-ci-extend/issues"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/antbuddy-share/gitlab-ci-extend#readme"
+  "version": "1.0.6"
 }
