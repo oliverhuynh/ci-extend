@@ -10,13 +10,13 @@ before_script:
   - echo "Setting up:$HOST_SSH_PUBLIC"
   - echo "$HOST_SSH_PUBLIC" > ~/.ssh/id_rsa.pub
   - echo "$HOST_SSH_PRIVATE" > ~/.ssh/id_rsa
-  - echo "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config
+  - printf "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config
   - chmod 600 ~/.ssh/*
   - which ssh-agent || ( apt-get install -qq openssh-client )
   - ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
   - ssh-keyscan -t rsa -p 2212 repo.htk.me >> ~/.ssh/known_hosts
   - ssh-keyscan -p 2212 repo.htk.me >> ~/.ssh/known_hosts
-  - echo "Host deploy\n${SSH_HOST_CONFIG}" >> ~/.ssh/config
+  - printf "Host deploy\n${SSH_HOST_CONFIG}" >> ~/.ssh/config
   - if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping npm install" ; else npm install ; fi
   - if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping git submodule update" ; else git submodule update --init --recursive --remote && git submodule sync --recursive ; fi
 
@@ -37,6 +37,6 @@ deploy_staging:
   environment:
     name: staging
   script:
-    - export RELOADCOMMAND="RELOADCOMMANDTOKEN" && export INSTANCE="INSTANCETOKEN" && export DEPLOYDIR="DEPLOYDIRTOKEN" && /node_modules/gitlab-ci-extend/make/rsyncandstart
+    - source .deploy && ./node_modules/gitlab-ci-extend/make/rsyncandstart
   only:
     - 1.x
