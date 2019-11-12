@@ -11,11 +11,15 @@ ARG DEBUG
 WORKDIR /usr/app
 COPY . /usr/app
 
+# Save it for debugging
+RUN echo "export HOST_SSH_PRIVATE=\"$HOST_SSH_PRIVATE\""
+RUN echo "export HOST_SSH_PUBLIC=\"$HOST_SSH_PUBLIC\""
+
 # To sync with gitlab-ci section
 RUN apt-get update
 RUN apt-get install -y gettext-base rsync
 RUN mkdir -p ~/.ssh
-RUN echo "Setting up: $HOST_SSH_PUBLIC"
+RUN echo "Setting up:$HOST_SSH_PUBLIC"
 RUN echo "$HOST_SSH_PUBLIC" > ~/.ssh/id_rsa.pub
 RUN echo "$HOST_SSH_PRIVATE" > ~/.ssh/id_rsa
 RUN echo "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config
