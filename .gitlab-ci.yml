@@ -7,7 +7,7 @@ before_script:
   - apt-get update
   - apt-get install -y gettext-base rsync
   - mkdir -p ~/.ssh
-  - echo "Setting up: $HOST_SSH_PUBLIC"
+  - echo "Setting up:$HOST_SSH_PUBLIC"
   - echo "$HOST_SSH_PUBLIC" > ~/.ssh/id_rsa.pub
   - echo "$HOST_SSH_PRIVATE" > ~/.ssh/id_rsa
   - echo "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config
@@ -19,7 +19,7 @@ before_script:
   - if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping git submodule update" ; else git submodule update --init --recursive --remote && git submodule sync --recursive ; fi
 
   # Next will be deploy script section
-  - echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
+  - echo "SSH_PRIVATE_KEY:$SSH_PRIVATE_KEY"
   - which ssh-agent || ( apt-get install -qq openssh-client )
   - eval $(ssh-agent -s)
   - ssh-add <(echo "$SSH_PRIVATE_KEY")
