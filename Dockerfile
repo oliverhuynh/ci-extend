@@ -12,8 +12,8 @@ WORKDIR /usr/app
 COPY . /usr/app
 
 # Save it for debugging
-RUN echo "export HOST_SSH_PRIVATE=\"$HOST_SSH_PRIVATE\""
-RUN echo "export HOST_SSH_PUBLIC=\"$HOST_SSH_PUBLIC\""
+RUN echo "export HOST_SSH_PRIVATE=\"$HOST_SSH_PRIVATE\"" >> .deploy
+RUN echo "export HOST_SSH_PUBLIC=\"$HOST_SSH_PUBLIC\"" >> .deploy
 
 # To sync with gitlab-ci section
 RUN apt-get update
@@ -27,8 +27,8 @@ RUN chmod 600 ~/.ssh/*
 RUN which ssh-agent || ( apt-get install -qq openssh-client )
 RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN printf "Host deploy\n${SSH_HOST_CONFIG}" >> ~/.ssh/config
-RUN source .deploy && if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping npm install" ; else $BUILDSCRIPT; fi
-RUN if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping git submodule update" ; else git submodule update --init --recursive --remote && git submodule sync --recursive ; fi
+RUN . .deploy && if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping npm install" ; else $BUILDSCRIPT; fi
+RUN . .deploy && if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping git submodule update" ; else git submodule update --init --recursive --remote && git submodule sync --recursive ; fi
 
 
 
