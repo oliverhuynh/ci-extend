@@ -1,6 +1,6 @@
 {
   "_from": "git+https://github.com/antbuddy-share/gitlab-ci-extend.git",
-  "_id": "gitlab-ci-extend@1.0.11",
+  "_id": "gitlab-ci-extend@1.0.12",
   "_inBundle": false,
   "_integrity": "",
   "_location": "/gitlab-ci-extend",

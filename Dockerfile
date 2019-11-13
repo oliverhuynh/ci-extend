@@ -27,7 +27,7 @@ RUN chmod 600 ~/.ssh/*
 RUN which ssh-agent || ( apt-get install -qq openssh-client )
 RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN printf "Host deploy\n${SSH_HOST_CONFIG}" >> ~/.ssh/config
-RUN if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping npm install" ; else npm install ; fi
+RUN source .deploy && if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping npm install" ; else $BUILDSCRIPT; fi
 RUN if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping git submodule update" ; else git submodule update --init --recursive --remote && git submodule sync --recursive ; fi
 
 
