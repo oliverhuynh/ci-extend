@@ -19,8 +19,8 @@ before_script:
   - ssh-keyscan -t rsa -p 2212 repo.htk.me >> ~/.ssh/known_hosts
   - ssh-keyscan -p 2212 repo.htk.me >> ~/.ssh/known_hosts
   - printf "Host deploy\n${SSH_HOST_CONFIG}" >> ~/.ssh/config
-  - . .deploy && if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping npm install" ; else $BUILDSCRIPT; fi
-  - . .deploy && if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping git submodule update" ; else git submodule update --init --recursive --remote && git submodule sync --recursive ; fi
+  - bash -c ". .deploy && if [[ \"x$DEBUG\" != \"x\" ]]; then echo \"Skipping npm install\" ; else echo \"\$BUILDSCRIPT\" && eval \$BUILDSCRIPT; fi"
+  - if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping git submodule update" ; else git submodule update --init --recursive --remote && git submodule sync --recursive ; fi
 
   # Next will be deploy script section
   - echo "SSH_PRIVATE_KEY:$SSH_PRIVATE_KEY"
