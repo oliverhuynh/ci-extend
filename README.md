@@ -15,7 +15,7 @@ npm install --save https://github.com/antbuddy-share/gitlab-ci-extend.git
 
 OR
 
-./node_modules/gitlab-ci-extend/setup.sh /etc/antbuddy/dockers/.antbuddy/onboarding/src onboarding "cp .env.dev .env && cd ../../ && ./docker-compose up --build -d onboarding && cd -" "npm install && npm run build"
+./node_modules/gitlab-ci-extend/setup.sh /etc/antbuddy/dockers/.antbuddy/onboarding/src onboarding "cd ../../ && ./docker-compose up --build -d onboarding && cd -" "cp .env.dev .env && npm install && npm run build"
 ```
 
 Test deploy script  

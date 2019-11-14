@@ -16,15 +16,21 @@ BUILDSCRIPT=${4:-'npm install;'}
 BUILDSCRIPT=$(echo $BUILDSCRIPT | sed 's/\//\\\//g' | sed 's/\&/\\\&/g')
 echo "BUILDSCRIPT: $BUILDSCRIPT"
 
+NODEVERSION=${5:-'10.17.0'}
+NODEVERSION=$(echo $NODEVERSION | sed 's/\//\\\//g' | sed 's/\&/\\\&/g')
+echo "NODEVERSION: $NODEVERSION"
+
 sed -i 's/RELOADCOMMANDTOKEN/'"$RELOADCOMMAND"'/g' .gitlab-ci.yml
 sed -i 's/INSTANCETOKEN/'"$INSTANCE"'/g' .gitlab-ci.yml
 sed -i 's/DEPLOYDIRTOKEN/'"$DEPLOYDIR"'/g' .gitlab-ci.yml
 sed -i 's/BUILDSCRIPTTOKEN/'"$BUILDSCRIPT"'/g' .gitlab-ci.yml
+sed -i 's/NODEVERSIONTOKEN/'"$NODEVERSION"'/g' .gitlab-ci.yml
 
 
 sed -i 's/RELOADCOMMANDTOKEN/'"$RELOADCOMMAND"'/g' .deploy
 sed -i 's/INSTANCETOKEN/'"$INSTANCE"'/g' .deploy
 sed -i 's/DEPLOYDIRTOKEN/'"$DEPLOYDIR"'/g' .deploy
 sed -i 's/BUILDSCRIPTTOKEN/'"$BUILDSCRIPT"'/g' .deploy
+sed -i 's/NODEVERSIONTOKEN/'"$NODEVERSION"'/g' .deploy
 
 echo "Remember to add SSH_PRIVATE_KEY + SSH_HOST_CONFIG (ssh-config options)"

@@ -1,5 +1,5 @@
 
-image: node:10.17.0-jessie
+image: node:NODEVERSIONTOKEN-jessie
 
 before_script:
 # IMPORTANT: This section is copied from make deploy and make dockerfile

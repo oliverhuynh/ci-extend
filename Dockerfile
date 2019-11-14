@@ -3,7 +3,8 @@
 # docker image build -t gitlab-ci .
 # docker container run -detach gitlab-ci
 ############################################################
-FROM node:10.17.0-jessie
+ARG MYAPP_IMAGE=node:10.17.0-jessie
+FROM $MYAPP_IMAGE
 MAINTAINER Oliver Huynh
 ARG HOST_SSH_PRIVATE
 ARG HOST_SSH_PUBLIC
