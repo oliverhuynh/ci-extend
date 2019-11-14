@@ -2,5 +2,5 @@
 
 docker stop dp_gitlab_ci 2>/dev/null
 docker rm dp_gitlab_ci 2>/dev/null
-docker image build -t gitlab-ci -f Dockerfile --build-arg MYAPP_IMAGE="node:$NODEVERSION-jessie" --build-arg HOST_SSH_PRIVATE="$HOST_SSH_PRIVATE" --build-arg SSH_HOST_CONFIG="$SSH_HOST_CONFIG" --build-arg HOST_SSH_PUBLIC="$HOST_SSH_PUBLIC" --build-arg DEBUG="$DEBUG" $1
+docker image build -t gitlab-ci -f Dockerfile --build-arg MYAPP_IMAGE="$DOCKERNODETOKEN" --build-arg HOST_SSH_PRIVATE="$HOST_SSH_PRIVATE" --build-arg SSH_HOST_CONFIG="$SSH_HOST_CONFIG" --build-arg HOST_SSH_PUBLIC="$HOST_SSH_PUBLIC" --build-arg DEBUG="$DEBUG" $1
 docker container run --name dp_gitlab_ci -d gitlab-ci

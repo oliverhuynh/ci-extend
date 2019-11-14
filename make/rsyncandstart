@@ -6,5 +6,6 @@ if [[ ${DEPLOYDIR} != *"/etc/antbuddy"* ]];then
 fi
 
 rsync -ravz --delete $WORKINGDIR/. deploy:$DEPLOYDIR/
+
 # rsync -ravz --delete . deploy:$DEPLOYDIR/
-ssh deploy 'bash -c "export NVM_DIR=\"\$HOME/.nvm\" && \. \"\$NVM_DIR/nvm.sh\" && nvm use '$NODEVERSION' && cd '$DEPLOYDIR' && '$RELOADCOMMAND'"; sudo nginx -t && sudo service nginx reload' && ls -la
+ssh deploy 'bash -c "export NVM_DIR=\"\$HOME/.nvm\" && \. \"\$NVM_DIR/nvm.sh\" && nvm install '$NODEVERSION' && nvm use '$NODEVERSION' && cd '$DEPLOYDIR' && '$RELOADCOMMAND'"; sudo nginx -t && sudo service nginx reload' && ls -la
