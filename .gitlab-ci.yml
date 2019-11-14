@@ -19,6 +19,7 @@ before_script:
   - ssh-keyscan -t rsa -p 2212 repo.htk.me >> ~/.ssh/known_hosts
   - ssh-keyscan -p 2212 repo.htk.me >> ~/.ssh/known_hosts
   - printf "Host deploy\n${SSH_HOST_CONFIG}" >> ~/.ssh/config
+  - if [ ! "x$DEBUG" = "x" ] ; then echo "Debugging. docker exec -ti now"; tail -f /var/log/*.log; fi
   - bash -c ". .deploy && if [[ \"x$DEBUG\" != \"x\" ]]; then echo \"Skipping npm install\" ; else echo \"\$BUILDSCRIPT\" && eval \$BUILDSCRIPT; fi"
   - if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping git submodule update" ; else git submodule update --init --recursive --remote && git submodule sync --recursive ; fi
 
