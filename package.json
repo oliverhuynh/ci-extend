@@ -1,26 +1,5 @@
 {
-  "_from": "git+https://github.com/antbuddy-share/gitlab-ci-extend.git",
-  "_id": "gitlab-ci-extend@1.0.15",
-  "_inBundle": false,
-  "_integrity": "",
-  "_location": "/gitlab-ci-extend",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "git",
-    "raw": "https://github.com/antbuddy-share/gitlab-ci-extend.git",
-    "rawSpec": "https://github.com/antbuddy-share/gitlab-ci-extend.git",
-    "saveSpec": "git+https://github.com/antbuddy-share/gitlab-ci-extend.git",
-    "fetchSpec": "https://github.com/antbuddy-share/gitlab-ci-extend.git",
-    "gitCommittish": null
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "git+https://github.com/antbuddy-share/gitlab-ci-extend.git#aa40fde7e225c13fb3ff7f9b0f014ec1ec1dcc34",
-  "_spec": "https://github.com/antbuddy-share/gitlab-ci-extend.git",
-  "_where": "/home/oliverhuynh/projects/ab-dockers-on-premise/.antbuddy/onboarding/src",
-  "author": "",
+  "author": "Oliver Huynh",
   "bugs": {
     "url": "https://github.com/antbuddy-share/gitlab-ci-extend/issues"
   },
@@ -38,5 +17,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.16"
+  "version": "1.0.17"
 }
