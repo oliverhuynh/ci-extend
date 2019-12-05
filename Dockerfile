@@ -9,8 +9,10 @@ MAINTAINER Oliver Huynh
 ARG HOST_SSH_PRIVATE
 ARG HOST_SSH_PUBLIC
 ARG DEBUG
-WORKDIR /usr/app
-COPY . /usr/app
+ARG DEPLOYDIR
+WORKDIR $DEPLOYDIR
+COPY . $DEPLOYDIR
+RUN ln -s $DEPLOYDIR /usr/app
 
 # Save it for debugging
 RUN echo "export HOST_SSH_PRIVATE=\"$HOST_SSH_PRIVATE\"" >> .deploy
