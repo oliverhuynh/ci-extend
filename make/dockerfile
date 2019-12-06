@@ -4,5 +4,6 @@
 docker stop $INSTANCE 2>/dev/null
 docker rm $INSTANCE 2>/dev/null
 docker image build -t $IMGINSTANCE -f Dockerfile --build-arg DEPLOYDIR="$DEPLOYDIR" --build-arg MYAPP_IMAGE="$DOCKERNODE" --build-arg HOST_SSH_PRIVATE="$HOST_SSH_PRIVATE" --build-arg SSH_HOST_CONFIG="$SSH_HOST_CONFIG" --build-arg HOST_SSH_PUBLIC="$HOST_SSH_PUBLIC" --build-arg DEBUG="$DEBUG" $1
-docker container run $EXTRARUNDOCKER --name $INSTANCE -d $IMGINSTANCE $EXTRARUNDOCKERAFTER
-echo "docker container run $EXTRARUNDOCKER --name $INSTANCE -d $IMGINSTANCE $EXTRARUNDOCKERAFTER"
+cmd="docker container run $EXTRARUNDOCKER -d --name $INSTANCE $IMGINSTANCE $EXTRARUNDOCKERAFTER"
+eval $cmd
+echo $cmd
