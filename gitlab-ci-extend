@@ -1,0 +1,76 @@
+#!/bin/bash -i
+
+exec--main() {
+  local cmd=`basename $0`
+  declare -F | grep exec-- | sed 's/declare -f exec/'$cmd' /'
+}
+
+exec--docker-import() {
+  . .deploy
+  docker load < ./build/$IMGINSTANCE.tar
+  cat ./build/$INSTANCE.export.tar | sudo docker import - $IMGINSTANCE
+  echo "Now run following command to start the docker node"
+  echo "docker container run -v $DEPLOYDIR/.ssh:/root/.ssh:ro --entrypoint=/bin/bash -p 2995:2998 -d --name $INSTANCE $IMGINSTANCE -c \"cd /usr/app && . .deploy && gitlab-ci-extend --start\""
+}
+
+exec--docker-export() {
+  . .deploy
+  docker image save -o ./build/$IMGINSTANCE.tar $IMGINSTANCE
+  docker export $INSTANCE > ./build/$INSTANCE.export.tar
+  echo "Image and data is saved to ./build/$IMGINSTANCE.tar AND ./build/$INSTANCE.export.tar"
+}
+
+exec--docker-build() {
+  docker ps
+  cp .deploy.$MYENV .deploy
+  cp .env.$MYENV .env
+  echo "[Info] This actions is supposed to run after building all assets well!"
+  make -f ./node_modules/gitlab-ci-extend/Makefile dockerfile
+  exec--docker-build-haproxy
+}
+
+exec--docker-build-customnode() {
+  . .deploy
+  local INSTANCENAME="$1"
+  local INSTANCEMORE=${2:-" -p 2996:2998"}
+  docker stop $INSTANCENAME 2>/dev/null
+  docker rm $INSTANCENAME 2>/dev/null
+  local cmd="docker container run -v $DEPLOYDIR/.ssh:/root/.ssh:ro --entrypoint=/bin/bash $INSTANCEMORE -d --name $INSTANCENAME $IMGINSTANCE -c \"cd /usr/app && . .deploy && gitlab-ci-extend --start\""
+
+}
+
+helpex--build-local() {
+  . .deploy
+  nvm use $NODEVERSION
+  cp ./admin-ui-config/* ./node_modules/admin-ui/
+  cd ./node_modules/admin-ui/
+  npm install
+  ./module.sh --install
+  npm run build2
+  cd -
+}
+
+exec--build-local() {
+  export NODE_ENV=development
+  helpex--build-local
+}
+
+exec--build-prod() {
+  export NODE_ENV=production
+  helpex--build-local
+}
+
+exec--start() {
+  . .deploy
+  nvm use $NODEVERSION
+  cd ./node_modules/admin-ui/
+  npm run start2
+  cd -
+}
+
+exec--setup-ci() {
+  ./node_modules/gitlab-ci-extend/setup.sh /etc/antbuddy/tools/provisioning provisioning "echo BuildInstanceCMD" "echo StartInstanceCMD" "12.13" "node:12.13-stretch"
+}
+
+. node_modules/oliver-framework/bash/common.sh
+oliver-common-exec --check-existed '$M0 $M1' "$@"
