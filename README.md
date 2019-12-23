@@ -19,9 +19,7 @@ OR
 
 
 
-./node_modules/gitlab-ci-extend/setup.sh /etc/antbuddy/dockers/.antbuddy/onboarding/src onboarding "cd ../../ && ./docker-compose up --build -d onboarding && cd -" "cp .env.dev .env && npm install && git clone ssh://git@repo.htk.me:2212/all/tech/antbuddy/react-antbuddy.git ~/react-antbuddy && cd ~/react-antbuddy && npm install && npm run build && cd - && rm -rf node_modules/react-antbuddy && mv ~/react-antbuddy ./node_modules/ && CI=false npm run build" "12.13" "node:12.13-stretch"
-
-git clone ssh://git@repo.htk.me:2212/all/tech/antbuddy/react-antbuddy.git ~/react-antbuddy && cd ~/react-antbuddy && npm install && cd - && rm -rf node_modules/react-antbuddy && mv ~/react-antbuddy ./node_modules/ &&
+./node_modules/gitlab-ci-extend/setup.sh /etc/antbuddy/dockers/.antbuddy/onboarding/src onboarding "cd ../../ && ./docker-compose up --build -d onboarding && cd -" "cp .env.dev .env && npm install && CI=false npm run build" "12.13" "node:12.13-stretch"
 ```
 
 Test deploy script  
