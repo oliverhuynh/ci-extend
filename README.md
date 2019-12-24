@@ -6,7 +6,16 @@
 - Start the node
 - Reload nginx if available
 
-# To ur project
+# How this work
+
+This will add gitlab-ci.yml to your project and do following steps for the CI:  
+- exec BUILDSCRIPT in .deploy
+- Download git submodules
+- Rsync builts to target server
+- Install specified node version in target server and use the node version
+- Exec RELOADCOMMAND in DEPLOYDIR 
+
+# To setup ur project
 
 ```
 npm install --save https://github.com/antbuddy-share/gitlab-ci-extend.git
