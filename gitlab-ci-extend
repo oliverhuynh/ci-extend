@@ -26,7 +26,6 @@ exec--docker-build() {
   cp .env.$MYENV .env
   echo "[Info] This actions is supposed to run after building all assets well!"
   make -f ./node_modules/gitlab-ci-extend/Makefile dockerfile
-  exec--docker-build-haproxy
 }
 
 exec--docker-build-customnode() {
