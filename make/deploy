@@ -1,8 +1,5 @@
 #!/bin/bash
 
 # To sync with gitlab-ci section
-echo "SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY"
 which ssh-agent || ( apt-get install -qq openssh-client )
-eval $(ssh-agent -s)
-ssh-add <(echo "$SSH_PRIVATE_KEY")
 ./make/rsyncandstart

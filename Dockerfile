@@ -34,7 +34,8 @@ RUN printf "Host deploy\n${SSH_HOST_CONFIG}" >> ~/.ssh/config
 RUN if [ ! "x$DEBUG" = "x" ] ; then echo "Debugging. docker exec -ti now"; tail -f /var/log/*.log; fi
 RUN bash -c ". .deploy && if [[ \"x$DEBUG\" != \"x\" ]]; then echo \"Skipping npm install\" ; else echo \"\$BUILDSCRIPT\" && eval \$BUILDSCRIPT; fi"
 RUN if [ ! "x$DEBUG" = "x" ] ; then echo "Skipping git submodule update" ; else git submodule update --init --recursive --remote; git submodule sync --recursive ; fi; exit 0
-
+RUN cat ~/.ssh/config
+RUN whoami
 
 
 # TODO: start-server-and-test
