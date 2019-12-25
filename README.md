@@ -35,7 +35,6 @@ Test deploy script
 - Script will rsync code to server with following config:
 ```
 export DEBUG="yes"
-export SSH_PRIVATE_KEY="privatekey"
 export SSH_HOST_CONFIG="  HostName IP \# This is ssh-config"
 ```
 - Script will do git pull via following credential
