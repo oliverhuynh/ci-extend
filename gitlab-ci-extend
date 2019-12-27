@@ -16,7 +16,7 @@ vars_parse--setup() {
 
 vars_verify--setup() {
   if [[ "$DEPLOYDIR" == "" || "$INSTANCE" == "" || "$RELOADCOMMAND" == "" || "$BUILDSCRIPT" == "" || "$NODEVERSION" == "" || "$DOCKERNODE" == "" ]]; then
-    echo "[Error] $0 [DEPLOYDIR] [INSTANCENAME] [RELOADCOMMAND] [BUILDCOMMAND] [NODEVERSION] [NODEDOCKERIMAGE]"
+    echo "[Error] $0 [DEPLOYDIR] [INSTANCENAME:curdir] [RELOADCOMMAND: pm2 start] [BUILDCOMMAND: npm install] [NODEVERSION:10.17.0] [NODEDOCKERIMAGE:node:10.17.0-jessie]"
     exit 1
   fi
 }
