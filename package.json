@@ -12,9 +12,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.28",
+  "version": "1.0.29",
   "dependencies": {
-    "jasmine-core": "3.4.0",
     "oliver-framework": "git+https://github.com/antbuddy-share/oliver-framework.git"
   }
 }
