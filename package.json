@@ -1,10 +1,5 @@
 {
   "author": "Oliver Huynh",
-  "bugs": {
-    "url": "https://github.com/antbuddy-share/gitlab-ci-extend/issues"
-  },
-  "bundleDependencies": false,
-  "deprecated": false,
   "description": "- Setup node_modules - Init all related modules - Rsync - Start the node - Reload nginx if available",
   "homepage": "https://github.com/antbuddy-share/gitlab-ci-extend#readme",
   "license": "ISC",
@@ -17,8 +12,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.27",
+  "version": "1.0.28",
   "devDependencies": {
+    "jasmine-core": "3.4.0",
     "oliver-framework": "git+https://github.com/antbuddy-share/oliver-framework.git"
   }
 }
