@@ -17,8 +17,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.26",
-  "dependencies": {
+  "version": "1.0.27",
+  "devDependencies": {
     "oliver-framework": "git+https://github.com/antbuddy-share/oliver-framework.git"
   }
 }
