@@ -3,7 +3,7 @@
   "bugs": {
     "url": "https://github.com/antbuddy-share/gitlab-ci-extend/issues"
   },
-  "bundleDependencies": false,
+  "bundleDependencies": true,
   "deprecated": false,
   "description": "- Setup node_modules - Init all related modules - Rsync - Start the node - Reload nginx if available",
   "homepage": "https://github.com/antbuddy-share/gitlab-ci-extend#readme",
@@ -17,12 +17,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.23",
-  "peerDependencies": {
-    "oliver-framework": "git+https://github.com/antbuddy-share/oliver-framework.git"
-  },
-  "devDependencies": {
-    "oliver-framework": "git+https://github.com/antbuddy-share/oliver-framework.git"
+  "version": "1.0.24",
   },
   "dependencies": {
     "oliver-framework": "git+https://github.com/antbuddy-share/oliver-framework.git"
