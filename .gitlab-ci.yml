@@ -40,6 +40,6 @@ deploy_staging:
   environment:
     name: staging
   script:
-    - source .deploy && ./node_modules/gitlab-ci-extend/make/rsyncandstart
+    - make -f ./node_modules/gitlab-ci-extend/Makefile deploy
   only:
     - 1.x
