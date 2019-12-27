@@ -19,7 +19,7 @@
   },
   "version": "1.0.25",
   },
-  "dependencies": {
+  "devDependencies": {
     "oliver-framework": "git+https://github.com/antbuddy-share/oliver-framework.git"
   }
 }
