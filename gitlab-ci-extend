@@ -63,6 +63,10 @@ exec--main() {
   declare -F | grep exec-- | sed 's/declare -f exec/'$cmd' /'
 }
 
+exec--help() {
+  cat $CURDIR/README.md
+}
+
 exec--docker-import() {
   . .deploy
   docker load < ./build/$IMGINSTANCE.tar
