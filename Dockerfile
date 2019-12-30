@@ -16,8 +16,8 @@ COPY . $DEPLOYDIR
 RUN ln -s $DEPLOYDIR /usr/app
 
 # Save it for debugging
-RUN echo "export HOST_SSH_PRIVATE=\"$HOST_SSH_PRIVATE\"" >> .deploy-ssh
-RUN echo "export HOST_SSH_PUBLIC=\"$HOST_SSH_PUBLIC\"" >> .deploy-ssh
+RUN echo "export HOST_SSH_PRIVATE=\"$HOST_SSH_PRIVATE\"" >> .deploy
+RUN echo "export HOST_SSH_PUBLIC=\"$HOST_SSH_PUBLIC\"" >> .deploy
 
 # To sync with gitlab-ci section
 RUN apt-get update
