@@ -6,7 +6,7 @@ if [[ ${DEPLOYDIR} != *"/etc/antbuddy"* ]];then
 fi
 
 PARENTDIR=$(dirname $DEPLOYDIR)
-rsync -ravz --rsync-path="sudo rsync" --delete $WORKINGDIR deploy:$PARENTDIR/
+rsync -ravz --rsync-path="sudo rsync" $RSYNCMORE --delete $WORKINGDIR deploy:$PARENTDIR/
 
 # rsync -ravz --delete . deploy:$DEPLOYDIR/
 if [[ "$DEPLOYNOUSENVM" != "" ]]; then
