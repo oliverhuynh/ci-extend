@@ -79,9 +79,6 @@ exec--docker-export() {
 }
 
 exec--docker-build() {
-  docker ps
-  cp .deploy.$MYENV .deploy
-  cp .env.$MYENV .env
   echo "[Info] This actions is supposed to run after building all assets well!"
   make -f ./node_modules/gitlab-ci-extend/Makefile dockerfile
 }
