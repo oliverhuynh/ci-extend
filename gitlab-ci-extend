@@ -64,7 +64,7 @@ exec--main() {
 }
 
 exec--help() {
-  cat $CURDIR/README.md
+  cat $SETUPDIR/README.md
 }
 
 exec--docker-import() {
