@@ -21,7 +21,7 @@ RUN echo "export HOST_SSH_PUBLIC=\"$HOST_SSH_PUBLIC\"" >> .deploy
 
 # To sync with gitlab-ci section
 RUN apt-get update
-RUN apt-get install -y gettext-base rsync
+RUN apt-get install -y gettext-base rsync libssl-dev
 RUN mkdir -p ~/.ssh
 RUN echo "Setting up:$HOST_SSH_PUBLIC. $SSH_HOST_CONFIG"
 RUN echo "$HOST_SSH_PUBLIC" > ~/.ssh/id_rsa.pub
