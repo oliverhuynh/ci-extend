@@ -3,13 +3,16 @@
 . ./.deploy
 . ~/.bashrc
 
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname $SCRIPT)
+
 PARENTDIR=$(dirname $DEPLOYDIR)
 
 if [[ "${DEPLOYDIR}" == "" || "${PARENTDIR}" == "" || "${WORKINGDIR}" == "" || "${RELOADCOMMAND}" == "" ]]; then
   echo "Please write a proper DEPLOYDIR, PARENTDIR, WORKINGDIR, RELOADCOMMAND"
   exit 1
 fi
-rsync -ravz --rsync-path="sudo rsync" $RSYNCMORE --delete $WORKINGDIR deploy:$PARENTDIR/
+rsync -ravz --rsync-path="sudo rsync" --exclude=".git" $RSYNCMORE --delete $WORKINGDIR deploy:$PARENTDIR/
 
 # rsync -ravz --delete . deploy:$DEPLOYDIR/
 if [[ "$DEPLOYNOUSENVM" != "" ]]; then

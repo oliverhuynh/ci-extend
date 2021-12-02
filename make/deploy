@@ -1,5 +1,8 @@
 #!/bin/bash
 
+SCRIPT=$(readlink -f "$0")
+SCRIPTPATH=$(dirname $SCRIPT)
+
 # To sync with gitlab-ci section
 which ssh-agent || (apt-get install -qq openssh-client)
-./make/rsyncandstart
+${SCRIPTPATH}/make/rsyncandstart
