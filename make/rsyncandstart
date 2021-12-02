@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [[ ${DEPLOYDIR} != *"/etc/antbuddy"* ]];then
-    echo "This script is dangerous. Please ln -s your deploy dir '$DEPLOYDIR' to under /etc/antbuddy folder"
-    exit
-fi
-
 PARENTDIR=$(dirname $DEPLOYDIR)
+
+if [[ "${DEPLOYDIR}" == "" || "${PARENTDIR}" == "" || "${WORKINGDIR}" == "" || "${RELOADCOMMAND}" == "" ]]; then
+  echo "Please write a proper DEPLOYDIR, PARENTDIR, WORKINGDIR, RELOADCOMMAND"
+  exit 1
+fi
 rsync -ravz --rsync-path="sudo rsync" $RSYNCMORE --delete $WORKINGDIR deploy:$PARENTDIR/
 
 # rsync -ravz --delete . deploy:$DEPLOYDIR/

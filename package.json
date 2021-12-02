@@ -1,22 +1,23 @@
 {
   "author": "Oliver Huynh",
   "description": "- Setup node_modules - Init all related modules - Rsync - Start the node - Reload nginx if available",
-  "homepage": "https://github.com/antbuddy-share/gitlab-ci-extend#readme",
+  "homepage": "https://github.com/oliverhuynh/ci-extend#readme",
   "license": "ISC",
   "main": "index.js",
-  "name": "gitlab-ci-extend",
+  "name": "ci-extend",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antbuddy-share/gitlab-ci-extend.git"
+    "url": "git+https://github.com/oliverhuynh/ci-extend.git"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "version": "1.0.36",
   "dependencies": {
-    "oliver-framework": "git+https://github.com/antbuddy-share/oliver-framework.git"
+    "oliver-framework": "git+https://github.com/jufist/oliver-framework.git"
   },
   "bin": {
-    "gitlab-ci-extend": "./gitlab-ci-extend"
-  }
+    "ci-extend": "./gitlab-ci-extend"
+  },
+  "version": "1.0.1"
 }

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+. .deploy
+if [[ "x$BUILDSCRIPT" != "x" ]]; then
+  echo "$BUILDSCRIPT"
+  eval $BUILDSCRIPT
+fi
