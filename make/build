@@ -1,6 +1,8 @@
 #!/bin/bash
 
-. .deploy
+. ./.deploy
+. ~/.bashrc
+
 if [[ "x$BUILDSCRIPT" != "x" ]]; then
   echo "$BUILDSCRIPT"
   eval $BUILDSCRIPT

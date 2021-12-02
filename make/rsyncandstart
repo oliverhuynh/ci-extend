@@ -1,5 +1,8 @@
 #!/bin/bash
 
+. ./.deploy
+. ~/.bashrc
+
 PARENTDIR=$(dirname $DEPLOYDIR)
 
 if [[ "${DEPLOYDIR}" == "" || "${PARENTDIR}" == "" || "${WORKINGDIR}" == "" || "${RELOADCOMMAND}" == "" ]]; then

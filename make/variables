@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . ./.deploy
+. ~/.bashrc
 
 apt-get update
 apt-get install -y gettext-base rsync libssl-dev
