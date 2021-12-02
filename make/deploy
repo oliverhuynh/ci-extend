@@ -5,4 +5,4 @@ SCRIPTPATH=$(dirname $SCRIPT)
 
 # To sync with gitlab-ci section
 which ssh-agent || (apt-get install -qq openssh-client)
-${SCRIPTPATH}/make/rsyncandstart
+${SCRIPTPATH}/rsyncandstart
