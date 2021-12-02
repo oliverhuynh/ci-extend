@@ -6,7 +6,7 @@
 apt-get update
 apt-get install -y gettext-base rsync libssl-dev
 mkdir -p ~/.ssh
-echo "Setting up:$HOST_SSH_PUBLIC. $SSH_HOST_CONFIG"
+# echo "Setting up:$HOST_SSH_PUBLIC. $SSH_HOST_CONFIG"
 echo "$HOST_SSH_PUBLIC" >~/.ssh/id_rsa.pub
 echo "$HOST_SSH_PRIVATE" >~/.ssh/id_rsa
 printf "Host *\n\tStrictHostKeyChecking no\n\n" >>~/.ssh/config
