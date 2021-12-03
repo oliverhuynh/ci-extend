@@ -1,0 +1,21 @@
+#!/bin/bash
+
+source ./.deploy
+source ~/.bashrc
+
+NVM_DIR="/usr/local/nvm"
+NODE_VERSION=${NODE_VERSION:-"10.24.1"}
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
+
+# Install nvm with node, npm, yarn
+source ~/.bashrc
+nvm install v$NODE_VERSION
+nvm use --delete-prefix v$NODE_VERSION
+nvm alias default $NODE_VERSION
+npm i -g yarn
+npm i --global git+https://github.com/oliverhuynh/ci-extend.git
+
+# Prepare ci-extend and needed packages
+NM=$(npm root -g)
+$NM/ci-extend/make/variables
+yarn install
