@@ -2,7 +2,6 @@
 
 . ./.deploy
 . ~/.bashrc
-nvm use --delete-prefix v$NODE_VERSION
 
 apt-get update
 apt-get install -y gettext-base rsync libssl-dev
@@ -18,4 +17,5 @@ ssh-keyscan -t rsa github.com >>~/.ssh/known_hosts
 printf "Host deploy\n${SSH_HOST_CONFIG}" >>~/.ssh/config
 git submodule update --init --recursive --remote
 git submodule sync --recursive
+source ~/.bashrc
 npm install
