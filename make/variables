@@ -2,6 +2,7 @@
 
 . ./.deploy
 . ~/.bashrc
+nvm use --delete-prefix v$NODE_VERSION
 
 apt-get update
 apt-get install -y gettext-base rsync libssl-dev
