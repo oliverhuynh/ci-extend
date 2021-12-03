@@ -15,6 +15,7 @@ fi
 
 # Allow the "deploy" instance to run deploy by a checkout and custom command also
 [[ "${REMOTE_DEPLOY}" != "" ]] && {
+  echo "Deploying via REMOTE_DEPLOY ${REMOTE_DEPLOY}"
   ssh deploy 'bash -c "cd '$DEPLOYDIR'; '$REMOTE_DEPLOY'"'
 }
 
