@@ -8,7 +8,7 @@
       pi=$(dirname $i)
       [[ "${i}" == "" ]] && echo "$i is wrong" && continue 
       target=$PWD/$pi
-      [[ "$pi" == "" || "$pi" == "./" ]] && target=$PWD
+      [[ "$pi" == "" || "$pi" == "./" || "$pi" == "." ]] && target=$PWD
       echo "[DEPLOY_CACHE] restore $target/ from tmp/$i"
       mkdir -p $target
       rsync -raz --exclude=".git" $RSYNCMORE --delete tmp/$i $target/
