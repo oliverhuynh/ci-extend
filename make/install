@@ -14,9 +14,10 @@ nvm install v$NODE_VERSION
 nvm use --delete-prefix v$NODE_VERSION
 nvm alias default $NODE_VERSION
 npm i -g yarn
-yarn global add git+https://github.com/oliverhuynh/ci-extend.git
+yarn global add git+https://github.com/oliverhuynh/ci-extend.git -f
 
 # Prepare ci-extend and needed packages
-NM=$(npm root -g)
+# NM=$(npm root -g)
+NM=/usr/local/share/.config/yarn/global/node_modules
 $NM/ci-extend/make/variables
 yarn install
