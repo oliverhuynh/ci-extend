@@ -14,3 +14,5 @@
       rsync -raz --exclude=".git" $RSYNCMORE --delete tmp/$i $target/
     done
 }
+
+exit 0
