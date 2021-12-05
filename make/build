@@ -2,6 +2,7 @@
 
 . ./.deploy
 . ~/.bashrc
+. ./.env
 
 if [[ "x$BUILDSCRIPT" != "x" ]]; then
   echo "$BUILDSCRIPT"
