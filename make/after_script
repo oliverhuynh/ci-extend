@@ -7,7 +7,7 @@
       pi=$(dirname $i)
       [[ "${i}" == "" ]] && echo "$i is wrong" && continue 
       target=tmp/$pi
-      [[ "$pi" == "" ]] && target=tmp
+      [[ "$pi" == "" || "$pi" == "./" ]] && target=tmp
       echo "[DEPLOY_CACHE] store $i to $target/"
       mkdir -p $target
       rsync -raz --exclude=".git" $RSYNCMORE --delete $i $target/
