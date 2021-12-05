@@ -10,6 +10,6 @@
       [[ "$pi" == "" ]] && target=tmp
       echo "[DEPLOY_CACHE] store $i to $target/"
       mkdir -p $target
-      rsync -ravz --exclude=".git" $RSYNCMORE --delete $i $target/
+      rsync -raz --exclude=".git" $RSYNCMORE --delete $i $target/
     done
 }
