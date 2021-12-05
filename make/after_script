@@ -1,0 +1,15 @@
+#!/bin/bash
+
+[[ "${DEPLOY_CACHE}" != "" ]] && {
+    it=( ${DEPLOY_CACHE})
+    for i in "${it[@]}"
+    do
+      pi=$(dirname $i)
+      [[ "${i}" == "" ]] && echo "$i is wrong" && continue 
+      target=tmp/$pi
+      [[ "$pi" == "" ]] && target=tmp
+      echo "[DEPLOY_CACHE] store $i to $target/"
+      mkdir -p $target
+      rsync -ravz --exclude=".git" $RSYNCMORE --delete $i $target/
+    done
+}

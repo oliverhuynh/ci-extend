@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+[[ "${DEPLOY_CACHE}" != "" ]] && {
+    it=( ${DEPLOY_CACHE})
+    for i in "${it[@]}"
+    do
+      pi=$(dirname $i)
+      [[ "${i}" == "" ]] && echo "$i is wrong" && continue 
+      target=$PWD/$pi
+      [[ "$pi" == "" ]] && target=$PWD
+      echo "[DEPLOY_CACHE] restore $target/ from tmp/$i"
+      mkdir -p $target
+      rsync -ravz --exclude=".git" $RSYNCMORE --delete tmp/$i $target/
+    done
+}
