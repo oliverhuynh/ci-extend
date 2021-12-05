@@ -19,5 +19,5 @@
   "bin": {
     "ci-extend": "./gitlab-ci-extend"
   },
-  "version": "1.0.14"
+  "version": "1.0.15"
 }

@@ -11,6 +11,7 @@
       [[ "$pi" == "" || "$pi" == "./" || "$pi" == "." ]] && target=$PWD
       echo "[DEPLOY_CACHE] restore $target/ from tmp/$i"
       mkdir -p $target
+      mkdir -p tmp/$i
       rsync -raz --exclude=".git" $RSYNCMORE --delete tmp/$i $target/
     done
 }
