@@ -18,4 +18,4 @@ printf "Host deploy\n${SSH_HOST_CONFIG}" >>~/.ssh/config
 git submodule update --init --recursive --remote
 git submodule sync --recursive
 source ~/.bashrc
-npm install
+yarn install
