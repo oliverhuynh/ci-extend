@@ -35,7 +35,7 @@ build_dist
 # Allow the "deploy" instance to run deploy by a checkout and custom command also
 [[ "${REMOTE_DEPLOY}" != "" ]] && {
   echo "Deploying via REMOTE_DEPLOY ${REMOTE_DEPLOY}"
-  ssh deploy 'bash -c "cd '$DEPLOYDIR'; '$REMOTE_DEPLOY'"'
+  ssh -t deploy 'bash -c "cd '$DEPLOYDIR'; '$REMOTE_DEPLOY'"'
 }
 
 build_dist
@@ -46,7 +46,7 @@ build_dist
 
 # rsync -ravz --delete . deploy:$DEPLOYDIR/
 if [[ "$DEPLOYNOUSENVM" != "" ]]; then
-  ssh deploy 'bash -c "cd '$DEPLOYDIR' && '$RELOADCOMMAND'"'
+  ssh -t deploy 'bash -c "cd '$DEPLOYDIR' && '$RELOADCOMMAND'"'
 else
-  ssh deploy 'bash -c "export NVM_DIR=\"\$HOME/.nvm\" && \. \"\$NVM_DIR/nvm.sh\" && nvm install '$NODEVERSION' && nvm use '$NODEVERSION' && cd '$DEPLOYDIR' && '$RELOADCOMMAND'"; sudo nginx -t && sudo service nginx reload'
+  ssh -t deploy 'bash -c "export NVM_DIR=\"\$HOME/.nvm\" && \. \"\$NVM_DIR/nvm.sh\" && nvm install '$NODEVERSION' && nvm use '$NODEVERSION' && cd '$DEPLOYDIR' && '$RELOADCOMMAND'"; sudo nginx -t && sudo service nginx reload'
 fi
