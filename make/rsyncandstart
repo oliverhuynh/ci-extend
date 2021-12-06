@@ -35,7 +35,7 @@ rsync -ravz ./.deploy deploy:/tmp/
 # Allow the "deploy" instance to run deploy by a checkout and custom command also
 [[ "${REMOTE_DEPLOY}" != "" ]] && {
   echo "[RSYNCANDSTART] Deploying via REMOTE_DEPLOY ${REMOTE_DEPLOY}"
-  ssh -tt deploy 'bash -c "source /tmp/.deploy; cd '$DEPLOYDIR'; '$REMOTE_DEPLOY'"'
+  ssh -tt deploy 'bash -c "source /tmp/.deploy; pwd; cd '$DEPLOYDIR'; '$REMOTE_DEPLOY'"'
 }
 
 build_dist
