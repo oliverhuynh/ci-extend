@@ -13,26 +13,32 @@ if [[ "${DEPLOYDIR}" == "" || "${PARENTDIR}" == "" || "${WORKINGDIR}" == "" || "
   exit 1
 fi
 
-[[ "${BUILD_DIST}" != "" ]] && {
-  echo "Rsync built if it is fine" >&2
-  s=$(cat tmp/build | tail -n 1)
-  [[ "$s" == "0" ]] && {
-    it=( ${BUILD_DIST})
-    for i in "${it[@]}"
-    do
-      pi=$(dirname $i)
-      [[ "${pi}" == "" ]] && echo "$i is wrong" && continue 
-      echo "[BUILD_DIST] Deploy $WORKINGDIR/$i to $DEPLOYDIR/$pi"
-      rsync -ravz --exclude=".git" $RSYNCMORE --delete $WORKINGDIR/$i deploy:$DEPLOYDIR/$pi
-    done
+build_dist() {
+  [[ "${BUILD_DIST}" != "" ]] && {
+    echo "Rsync built if it is fine" >&2
+    s=$(cat tmp/build | tail -n 1)
+    [[ "$s" == "0" ]] && {
+      it=( ${BUILD_DIST})
+      for i in "${it[@]}"
+      do
+        pi=$(dirname $i)
+        [[ "${pi}" == "" ]] && echo "$i is wrong" && continue 
+        echo "[BUILD_DIST] Deploy $WORKINGDIR/$i to $DEPLOYDIR/$pi"
+        rsync -raz --exclude=".git" $RSYNCMORE --delete $WORKINGDIR/$i deploy:$DEPLOYDIR/$pi
+      done
+    }
   }
 }
+
+build_dist
 
 # Allow the "deploy" instance to run deploy by a checkout and custom command also
 [[ "${REMOTE_DEPLOY}" != "" ]] && {
   echo "Deploying via REMOTE_DEPLOY ${REMOTE_DEPLOY}"
   ssh deploy 'bash -c "cd '$DEPLOYDIR'; '$REMOTE_DEPLOY'"'
 }
+
+build_dist
 
 [[ "${REMOTE_DEPLOY}" == "" ]] && {
   rsync -ravz --rsync-path="sudo rsync" --exclude=".git" $RSYNCMORE --delete $WORKINGDIR deploy:$PARENTDIR/
