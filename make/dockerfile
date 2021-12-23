@@ -2,6 +2,12 @@
 
 DEPLOYDIR=${DEPLOYDIR:-"/app"}
 docker image build -t ${CI_IMAGE} --build-arg DEPLOYDIR="$DEPLOYDIR" --build-arg MYAPP_IMAGE="${MYAPP_IMAGE}" --build-arg HOST_SSH_PRIVATE="$HOST_SSH_PRIVATE" --build-arg SSH_HOST_CONFIG="$SSH_HOST_CONFIG" --build-arg HOST_SSH_PUBLIC="$HOST_SSH_PUBLIC" --build-arg DEBUG="$DEBUG" $1
-cmd="docker container run $EXTRARUNDOCKER -d --name $INSTANCE ${CI_IMAGE} $EXTRARUNDOCKERAFTER"
+# cmd="docker container run $EXTRARUNDOCKER -d --name $INSTANCE ${CI_IMAGE} $EXTRARUNDOCKERAFTER"
 # eval $cmd
+# echo $cmd
+cmd="docker save ${CI_IMAGE} | gzip > image.tar.gz"
+echo $cmd
+cmd="echo rsync image.tar target:/tmp/image.tar.gz and ssh to target"
+echo $cmd
+cmd="docker load < /tmp/image.tar.gz"
 echo $cmd
