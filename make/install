@@ -1,8 +1,13 @@
 #!/bin/bash
 
 # Store all environments
+pwd
+DEPLOYDIR=${DEPLOYDIR:-"${PWD}"}
+cd $DEPLOYDIR
+ls -la ./
 ( set -o posix ; set ) | grep -vE "BASHOPTS|BASH_VERSINFO|EUID|PPID|SHELLOPTS|UID|HOME" > ./.deploy
 source ./.deploy
+source ./.env
 source ~/.bashrc
 
 # Common variables

@@ -9,11 +9,11 @@ MAINTAINER Oliver Huynh
 ARG HOST_SSH_PRIVATE
 ARG HOST_SSH_PUBLIC
 ARG SSH_HOST_CONFIG
-ARG DEBUG
 ARG DEPLOYDIR
-WORKDIR $DEPLOYDIR
-COPY . $DEPLOYDIR
-RUN ln -s $DEPLOYDIR /usr/app
+RUN echo 1
+COPY . /usr/ci-extend
+WORKDIR /usr/ci-extend
+# RUN ln -s $DEPLOYDIR /usr/app
 
 # To sync with gitlab-ci section
 RUN ./make/install
@@ -21,4 +21,8 @@ RUN ./make/install
 # RUN ./make/build
 
 # TODO: start-server-and-test
-CMD ["bash", "-c", "./make/variables; tail -F /var/log/*.log"]
+# buggy since there is not codeCMD ["bash", "-c", "./make/variables; tail -F /var/log/*.log"]
+
+WORKDIR $DEPLOYDIR
+CMD ["bash", "-c", "tail -F /var/log/*.log"]
+
