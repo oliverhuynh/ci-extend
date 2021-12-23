@@ -66,5 +66,9 @@ CI_IMAGE=ci-extend/drupalci:9-apache-interactive
 ${CI_EXTENDPATH:-"."}/make/dockerfile
 
 ```
-
+- Add the docker policy to your gitlab runner as https://stackoverflow.com/a/43481746
+```
+vi /etc/gitlab-runner/config.toml
+[runners.docker]
+  pull_policy = "if-not-present"
 ```

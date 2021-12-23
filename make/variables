@@ -1,5 +1,6 @@
 #!/bin/bash
 
+( set -o posix ; set ) | grep -vE "BASHOPTS|BASH_VERSINFO|EUID|PPID|SHELLOPTS|UID|HOME" > ./.deploy
 . ./.deploy
 . ~/.bashrc
 
