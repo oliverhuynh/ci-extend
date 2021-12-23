@@ -6,10 +6,10 @@ SHELL:=/bin/bash
 	SSH_PRIVATE_KEY="$(SSH_PRIVATE_KEY)"
 
 dockerfile:
-	source ./.deploy && cd node_modules/gitlab-ci-extend && ./make/dockerfile $(CURDIR)
+	source./.env; source ./.deploy; cd node_modules/ci-extend && ./make/dockerfile $(CURDIR)
 
 deploy:
-	source ./.deploy && cd node_modules/gitlab-ci-extend && ./make/deploy
+	source./.env; source ./.deploy; cd node_modules/ci-extend && ./make/deploy
 
 
 .PHONY: dockerfile deploy

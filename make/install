@@ -1,7 +1,12 @@
 #!/bin/bash
 
+# Store all environments
+( set -o posix ; set ) | grep -vE "BASHOPTS|BASH_VERSINFO|EUID|PPID|SHELLOPTS|UID|HOME" > ./.deploy
 source ./.deploy
 source ~/.bashrc
+
+# Common variables
+export DEBIAN_FRONTEND="noninteractive"
 
 NVM_DIR="/usr/local/nvm"
 NODE_VERSION=${NODE_VERSION:-"10.24.1"}
@@ -19,7 +24,22 @@ yarn global add git+https://github.com/oliverhuynh/ci-extend.git -f
 # Prepare ci-extend and needed packages
 # NM=$(npm root -g)
 NM=/usr/local/share/.config/yarn/global/node_modules
-$NM/ci-extend/make/variables
+# $NM/ci-extend/make/variables
 echo "Reinstall node_modules"
 rm -rf node_modules
+
+# Libs setup
 yarn install
+yarn global add sass
+yarn global add webpack-cli
+
+apt-get update
+apt-get install -y gettext-base rsync libssl-dev
+
+# Git setup
+git config --global core.pager "less -d"
+
+
+# SSH setup
+which ssh-agent || (apt-get install -qq openssh-client)
+

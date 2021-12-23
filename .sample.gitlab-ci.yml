@@ -1,8 +1,7 @@
-
 image: DOCKERNODETOKEN
 
 before_script:
-# IMPORTANT: This section is copied from make deploy and make dockerfile
+  # IMPORTANT: This section is copied from make deploy and make dockerfile
   # Dockerfile section
   - echo "export HOST_SSH_PRIVATE=\"$HOST_SSH_PRIVATE\"" >> .deploy
   - echo "export HOST_SSH_PUBLIC=\"$HOST_SSH_PUBLIC\"" >> .deploy

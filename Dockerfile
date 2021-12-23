@@ -16,9 +16,9 @@ COPY . $DEPLOYDIR
 RUN ln -s $DEPLOYDIR /usr/app
 
 # To sync with gitlab-ci section
-RUN ./make/variables
-RUN if [ ! "x$DEBUG" = "x" ] ; then echo "Debugging. docker exec -ti now"; tail -f /var/log/*.log; fi
-RUN ./make/build
+RUN ./make/install
+# RUN if [ ! "x$DEBUG" = "x" ] ; then echo "Debugging. docker exec -ti now"; tail -f /var/log/*.log; fi
+# RUN ./make/build
 
 # TODO: start-server-and-test
-CMD ["sh", "-c", "tail -F /var/log/*.log"]
+CMD ["bash", "-c", "./make/variables; tail -F /var/log/*.log"]
