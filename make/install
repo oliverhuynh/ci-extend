@@ -49,3 +49,5 @@ git config --global core.pager "less -d"
 # SSH setup
 which ssh-agent || (apt-get install -qq openssh-client)
 
+# Drupal CI
+./drupal/drupal-ci-setup.sh

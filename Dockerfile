@@ -17,6 +17,7 @@ WORKDIR /usr/ci-extend
 
 # To sync with gitlab-ci section
 RUN ./make/install
+
 # RUN if [ ! "x$DEBUG" = "x" ] ; then echo "Debugging. docker exec -ti now"; tail -f /var/log/*.log; fi
 # RUN ./make/build
 

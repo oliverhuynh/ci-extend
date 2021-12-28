@@ -9,13 +9,6 @@ export PATH="$PWD/vendor/bin:$PATH"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
-# Libs + builds
-composer global require drupal/coder dealerdirect/phpcodesniffer-composer-installer
-composer require --dev phpspec/prophecy-phpunit:*
-composer require phpunit/phpunit:~9.0 --with-all-dependencies
-# composer require squizlabs/php_codesniffer:^2.7
-touch $(date +%s).test
-
 # Tests
 phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer
 isFine=0
