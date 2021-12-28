@@ -16,7 +16,7 @@ cmd="docker save ${CI_IMAGE} | gzip > tmp/image.tar.gz"
 echo $cmd >> tmp/ci-deploy
 cmd="rsync tmp/image.tar.gz $TARGET:/tmp/"
 echo $cmd >> tmp/ci-deploy
-cmd="ssh $TARGET bash -c 'docker load < /tmp/image.tar.gz'"
+cmd="ssh $TARGET 'docker load < /tmp/image.tar.gz'"
 echo $cmd >> tmp/ci-deploy
 
 cat tmp/ci-deploy
