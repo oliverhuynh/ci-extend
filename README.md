@@ -59,10 +59,13 @@ make -f ./node_modules/gitlab-ci-extend/Makefile deploy
 # Quicker CI
 - Build the docker image with your desired. Example
 ```
+cd [YOUR drupal-docker project with .env]
 
-CI_EXTENDPATH=~/projects/ci-extend
-MYAPP_IMAGE=marcelovani/drupalci:9-apache-interactive
-CI_IMAGE=ci-extend/drupalci:9-apache-interactive
+# TARGET is where you're running gitlab runner
+export TARGET=cc-local2.jufist.org
+export CI_EXTENDPATH=~/projects/ci-extend
+export MYAPP_IMAGE=marcelovani/drupalci:9-apache-interactive
+export CI_IMAGE=ci-extend/drupalci:9-apache-interactive
 ${CI_EXTENDPATH:-"."}/make/dockerfile
 
 ```

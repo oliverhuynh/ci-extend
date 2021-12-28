@@ -3,6 +3,7 @@
 # Store all environments
 pwd
 DEPLOYDIR=${DEPLOYDIR:-"${PWD}"}
+mkdir -p $DEPLOYDIR
 cd $DEPLOYDIR
 ls -la ./
 ( set -o posix ; set ) | grep -vE "BASHOPTS|BASH_VERSINFO|EUID|PPID|SHELLOPTS|UID|HOME" > ./.deploy

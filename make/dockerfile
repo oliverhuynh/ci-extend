@@ -11,9 +11,11 @@ docker image build -t ${CI_IMAGE} -f ${dockerfile} --build-arg DEPLOYDIR="$DEPLO
 # cmd="docker container run $EXTRARUNDOCKER -d --name $INSTANCE ${CI_IMAGE} $EXTRARUNDOCKERAFTER"
 # eval $cmd
 # echo $cmd
-cmd="docker save ${CI_IMAGE} | gzip > image.tar.gz"
+cmd="docker save ${CI_IMAGE} | gzip > tmp/image.tar.gz"
 echo $cmd
-cmd="echo rsync image.tar target:/tmp/image.tar.gz and ssh to target"
+cmd="echo rsync tmp/image.tar $TARGET:/tmp/image.tar.gz"
+echo $cmd
+cmd="echo ssh $TARGET"
 echo $cmd
 cmd="docker load < /tmp/image.tar.gz"
 echo $cmd
