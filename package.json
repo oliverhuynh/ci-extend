@@ -17,7 +17,8 @@
     "oliver-framework": "git+https://github.com/jufist/oliver-framework.git"
   },
   "bin": {
-    "ci-extend": "./gitlab-ci-extend"
+    "ci-extend": "./gitlab-ci-extend",
+    "ci-drupal": "./drupal/index.sh"
   },
   "version": "1.0.21"
 }
