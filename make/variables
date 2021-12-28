@@ -1,5 +1,13 @@
 #!/bin/bash
 
+SCRIPT=$(readlink -f "$0")
+# No sym
+# SCRIPT=`realpath -s $0`
+SCRIPTPATH=$(dirname $SCRIPT)
+SCRIPTPATH2=$(dirname $SCRIPTPATH)
+source ${SCRIPTPATH2}/drupal/common.sh
+WORKINGDIR=$(pwd)
+
 ( set -o posix ; set ) | grep -vE "BASHOPTS|BASH_VERSINFO|EUID|PPID|SHELLOPTS|UID|HOME" > ./.deploy
 . ./.deploy
 . ~/.bashrc
@@ -22,4 +30,5 @@ source ~/.bashrc
 yarn install
 
 # Env setup
-cp ./.env.$APP_ENV ./.env && cp ./.env.more.$APP_ENV ./.env.more
+# cp ./.env.$APP_ENV ./.env && cp ./.env.more.$APP_ENV ./.env.more
+envrefresh

@@ -4,8 +4,9 @@ SCRIPT=$(readlink -f "$0")
 # No sym
 # SCRIPT=`realpath -s $0`
 SCRIPTPATH=$(dirname $SCRIPT)
+SCRIPTPATH2=$(dirname $SCRIPTPATH)
+source ${SCRIPTPATH2}/drupal/common.sh
 WORKINGDIR=$(pwd)
-source ${SCRIPTPATH}/common.sh
 
 . ./.deploy
 source ~/.bashrc
