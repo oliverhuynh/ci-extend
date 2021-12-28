@@ -20,5 +20,5 @@
     "ci-extend": "./gitlab-ci-extend",
     "ci-drupal": "./drupal/index.sh"
   },
-  "version": "1.0.21"
+  "version": "1.0.22"
 }
