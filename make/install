@@ -44,15 +44,15 @@ yarn install
 yarn global add sass
 yarn global add webpack-cli
 
-apt-get update
-apt-get install -y gettext-base rsync libssl-dev
+sudo apt-get update
+sudo apt-get install -y gettext-base rsync libssl-dev
 
 # Git setup
 git config --global core.pager "less -d"
 
 
 # SSH setup
-which ssh-agent || (apt-get install -qq openssh-client)
+which ssh-agent || (sudo apt-get install -qq openssh-client)
 
 # Drupal CI
-./drupal/drupal-ci-setup.sh
+$NM/ci-extend/drupal/drupal-ci-setup.sh
