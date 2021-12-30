@@ -35,6 +35,7 @@ yarn global add git+https://github.com/oliverhuynh/ci-extend.git -f --prefix /us
 # Prepare ci-extend and needed packages
 # NM=$(npm root -g)
 NM=/usr/local/share/.config/yarn/global/node_modules
+[ ! -d $NM ] && NM="$HOME/.config/yarn/global/node_modules"
 # $NM/ci-extend/make/variables
 echo "Reinstall node_modules"
 rm -rf node_modules
