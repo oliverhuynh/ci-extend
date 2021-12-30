@@ -1,6 +1,11 @@
 #!/bin/bash
 
+# Allow global install
+sudo chown $USER /usr/local /usr/local/bin
+
 # Store all environments
+
+
 pwd
 DEPLOYDIR=${DEPLOYDIR:-"${PWD}"}
 mkdir -p $DEPLOYDIR

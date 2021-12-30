@@ -1,3 +1,14 @@
+# Init
+```
+curl -o- https://raw.githubusercontent.com/oliverhuynh/ci-extend/master/make/install | bash
+```
+
+Check .example.gitlabci.yml for reference
+
+# OS requirements
+```
+Debian
+```
 # Setup basic CI
 
 - Setup node_modules
@@ -17,20 +28,6 @@ This will add gitlab-ci.yml to your project and do following steps for the CI:
 - Exec RELOADCOMMAND in DEPLOYDIR
 
 # To setup ur project
-
-```
-npm install --save https://github.com/antbuddy-share/gitlab-ci-extend.git
-
-./node_modules/gitlab-ci-extend/setup.sh /path/to/proj/src onboarding "cp .env.dev .env && cd ../../ && ./docker-compose up --build -d onboarding && cd -"
-
-OR
-
-./node_modules/gitlab-ci-extend/setup.sh /path/to/proj/src onboarding "cd ../../ && ./docker-compose up --build -d onboarding && cd -" "cp .env.dev .env && npm install && npm run build" "12.13" "node:12.13-stretch"
-
-
-
-./node_modules/gitlab-ci-extend/setup.sh /path/to/proj/src onboarding "cd ../../ && ./docker-compose up --build -d onboarding && cd -" "cp .env.dev .env && npm install && CI=false npm run build" "12.13" "node:12.13-stretch"
-```
 
 Test deploy script
 
