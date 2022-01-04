@@ -45,15 +45,27 @@ yarn install
 yarn global add sass
 yarn global add webpack-cli
 
-sudo apt-get update
-sudo apt-get install -y gettext-base rsync libssl-dev
+which yum && {
+  echo setup centos
+  sudo yum install openssl-devel rsync gettext -y
+
+  # SSH setup
+  sudo yum -y install openssh-clients
+}
+
+which apt-get && {
+  echo setup debian
+  sudo apt-get update
+  sudo apt-get install -y gettext-base rsync libssl-dev
+
+  # SSH setup
+  which ssh-agent || (sudo apt-get install -qq openssh-client)
+}
 
 # Git setup
 git config --global core.pager "less -d"
 
 
-# SSH setup
-which ssh-agent || (sudo apt-get install -qq openssh-client)
 
 # Drupal CI
 [ "$1" != "quick" ] && {
