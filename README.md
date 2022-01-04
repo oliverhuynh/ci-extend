@@ -1,4 +1,11 @@
 # Init
+
+Quick
+```
+curl -o- https://raw.githubusercontent.com/oliverhuynh/ci-extend/master/make/install | bash -s --quick
+```
+
+Full with DrupalCI
 ```
 curl -o- https://raw.githubusercontent.com/oliverhuynh/ci-extend/master/make/install | bash
 ```

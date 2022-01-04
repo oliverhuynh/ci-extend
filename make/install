@@ -56,4 +56,6 @@ git config --global core.pager "less -d"
 which ssh-agent || (sudo apt-get install -qq openssh-client)
 
 # Drupal CI
-$NM/ci-extend/drupal/drupal-ci-setup.sh
+[ "$1" != "quick" ] && {
+  $NM/ci-extend/drupal/drupal-ci-setup.sh
+}

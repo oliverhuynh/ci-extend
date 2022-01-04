@@ -11,7 +11,7 @@ export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 # Libs + builds
 composer global require drupal/coder dealerdirect/phpcodesniffer-composer-installer
-composer require --dev phpspec/prophecy-phpunit:*
-composer require phpunit/phpunit:~9.0 --with-all-dependencies
+composer global require --dev phpspec/prophecy-phpunit:*
+composer global require phpunit/phpunit:~9.0 --with-all-dependencies
 # composer require squizlabs/php_codesniffer:^2.7
 
