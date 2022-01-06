@@ -113,7 +113,7 @@ checkconfig() {
   # Check if there is config files changes
   [ ! -d config/sync ] && echo "CI is hardcoding config/sync. Please use this to store config files!" && return 1
   local isChange
-  isChange=$(git fetch origin; git diff --name-only ..origin | grep -e "^${CONFIGFOLDER}/.*" | head -n 1)
+  isChange=$(git fetch origin; git diff --name-only origin/${DEPLOY_BRANCH} ${DEPLOY_BRANCH} | grep -e "^${CONFIGFOLDER}/.*" | head -n 1)
   [[ "$isChange" == "" ]] && return 0
 
   local ct

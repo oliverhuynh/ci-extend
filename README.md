@@ -16,6 +16,11 @@ Check .example.gitlabci.yml for reference
 ```
 Debian
 ```
+# Git requirements
+```
+Ensure your git is clean
+```
+
 # Setup basic CI
 
 - Setup node_modules
