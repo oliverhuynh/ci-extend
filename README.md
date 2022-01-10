@@ -84,3 +84,5 @@ vi /etc/gitlab-runner/config.toml
 [runners.docker]
   pull_policy = "if-not-present"
 ```
+$DRUSH csi --entity-types=menu_link_content
+--entity-types=taxonomy_term
