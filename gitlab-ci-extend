@@ -1,5 +1,11 @@
 #!/bin/bash -i
 
+SCRIPT=$(readlink -f "$0")
+# No sym
+# SCRIPT=`realpath -s $0`
+SCRIPTPATH=$(dirname $SCRIPT)
+WORKINGDIR=$(pwd)
+
 vars_parse--setup() {
   CURDIR=$1
   shift
@@ -130,5 +136,5 @@ exec--setup-ci() {
   ./node_modules/gitlab-ci-extend/setup.sh /etc/antbuddy/tools/provisioning provisioning "echo BuildInstanceCMD" "echo StartInstanceCMD" "12.13" "node:12.13-stretch"
 }
 
-. node_modules/oliver-framework/bash/common.sh
+. ${SCRIPTPATH}/node_modules/oliver-framework/bash/common.sh
 oliver-common-exec --check-existed '$M0 $M1' "$@"

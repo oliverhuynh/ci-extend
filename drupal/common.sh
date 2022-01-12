@@ -101,7 +101,7 @@ deploycancel() {
     done
     errecho "Deploy is cancelled! There are changes in latest Aconfig. Please pull and merge from branch ${conflicts}! "
     errecho "[NOTE] 1. Merge latest changes in production if needed"
-    errecho "git fetch origin; git pull origin ${DEPLOY_BRANCH}; git checkout ${DEPLOY_BRANCH}; ${tomerge}"
+    errecho "git checkout ${DEPLOY_BRANCH}; git fetch origin; git pull origin ${DEPLOY_BRANCH}; ${tomerge}"
     errecho "[NOTE] 2. Resolve for the CI to merge again and deploy!"
     errecho "${toremove} git push origin ${DEPLOY_BRANCH}"
 }
