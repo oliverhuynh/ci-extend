@@ -102,6 +102,8 @@ solr() {
 
   [[ "${isFine}" == "2" ]] && {
     importconfig -y
+    # 2nd try 
+    importconfig -y
   }
   [[ "$DEPLOY_IMPORT" != "" ]] && {
     dbimport
