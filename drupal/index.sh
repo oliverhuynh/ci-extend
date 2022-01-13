@@ -100,7 +100,7 @@ solr() {
   ${DRUSH} cache-rebuild
   ${DRUSH} updatedb -y
 
-  [[ "${isFine}" == "2" ]] && {
+  [[ "${isFine2}" == "2" ]] && {
     importconfig -y
     # 2nd try 
     importconfig -y
@@ -109,7 +109,7 @@ solr() {
     dbimport
   }
 
-  [[ "${isFine2}" == "2" ]] && {
+  [[ "${isFine}" == "2" ]] && {
     langimport
   }
   [[ "$DEPLOY_SOLR" != "" ]] && {
