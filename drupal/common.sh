@@ -25,7 +25,8 @@ langexport() {
   mkdir locale -p
   for val in ${LANGUAGES[@]}; do
     errecho Exporting$val
-    ${DRUSH} langexp --langcodes=$val --file=$PWD/locale/all-$val.po
+    ${DRUSH} langexp --langcodes=$val --file=$PWD/tmp/all-$val.po
+    msguniq -s $PWD/tmp/all-$val.po > $PWD/locale/all-$val.po
   done
 }
 
