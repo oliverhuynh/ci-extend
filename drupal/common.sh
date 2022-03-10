@@ -108,6 +108,9 @@ deploycancel() {
 }
 
 checkconfig() {
+  local FORCE
+  FORCE="$1"
+  [[ "$1" == "YES" ]] && shift
   [[ "${CONFIGEXPORT}" == "" ]] && errecho "Define CONFIGEXPORT callback!" && return 1
   CONFIGFOLDER=${CONFIGFOLDER:-"config"}
 
@@ -116,7 +119,7 @@ checkconfig() {
   local isChange
   isChange=$(git fetch origin; git diff --name-only origin/${DEPLOY_BRANCH} ${DEPLOY_BRANCH} | grep -e "^${CONFIGFOLDER}/.*" | head -n 1)
   [[ "$isChange" == "" ]] && return 0
-
+  [[ "$FORCE" == "YES" ]] && return 2
   local ct
   local isConfigLatest
   ct=$(verifyconfig)

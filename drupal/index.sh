@@ -77,11 +77,18 @@ solr() {
 }
 
 [[ "$1" == "--all" ]] && {
+  shift
+  FORCE=""
+  [[ "$1" == "--force" ]] && {
+    shift
+    FORCE="YES"
+  }
+  
   # Verify latest lang
   CONFIGEXPORT="langexport"
   CONFIGFOLDER="locale"
   export -f langexport
-  ct=$(checkconfig)
+  ct=$(checkconfig $FORCE)
   isFine=$?
 
   # Verify latest config
