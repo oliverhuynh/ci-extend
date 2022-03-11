@@ -94,7 +94,7 @@ solr() {
   # Verify latest config
   CONFIGEXPORT="${DRUSH} cex -y"
   CONFIGFOLDER="config"
-  ct=$(checkconfig)
+  ct=$(checkconfig $FORCE)
   isFine2=$?
   [[ "${isFine}" == "1" ]] && deploycancel && exit 1
   [[ "${isFine2}" == "1" ]] && deploycancel && exit 1

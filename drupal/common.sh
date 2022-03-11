@@ -119,7 +119,7 @@ checkconfig() {
   local isChange
   isChange=$(git fetch origin; git diff --name-only origin/${DEPLOY_BRANCH} ${DEPLOY_BRANCH} | grep -e "^${CONFIGFOLDER}/.*" | head -n 1)
   [[ "$isChange" == "" ]] && return 0
-  [[ "$FORCE" == "YES" ]] && return 2
+  [[ "$FORCE" == "YES" ]] && echo "Forcing updating config" >&2 && return 2
   local ct
   local isConfigLatest
   ct=$(verifyconfig)
