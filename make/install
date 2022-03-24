@@ -38,7 +38,7 @@ which apt-get && {
   which ssh-agent || (sudo apt-get install -qq openssh-client)
 }
 
-NVM_DIR="/usr/local/nvm"
+# NVM_DIR="/usr/local/nvm"
 NODE_VERSION=${NODE_VERSION:-"10.24.1"}
 
 # Install nvm with node, npm, yarn
