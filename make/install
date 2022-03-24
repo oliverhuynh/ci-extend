@@ -19,12 +19,31 @@ source ~/.bashrc
 # Common variables
 export DEBIAN_FRONTEND="noninteractive"
 
+# Update libs
+which yum && {
+  echo setup centos
+  sudo yum install openssl-devel rsync gettext -y
+  sudo yum update curl nss nss-util nspr -y
+
+  # SSH setup
+  sudo yum -y install openssh-clients
+}
+
+which apt-get && {
+  echo setup debian
+  sudo apt-get update
+  sudo apt-get install -y gettext-base rsync libssl-dev gettext
+
+  # SSH setup
+  which ssh-agent || (sudo apt-get install -qq openssh-client)
+}
+
 NVM_DIR="/usr/local/nvm"
 NODE_VERSION=${NODE_VERSION:-"10.24.1"}
-echo "Installing node: $NODE_VERSION"
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
 
 # Install nvm with node, npm, yarn
+echo "Installing node: $NODE_VERSION"
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
 source ~/.bashrc
 nvm install v$NODE_VERSION
 nvm use --delete-prefix v$NODE_VERSION
@@ -45,27 +64,9 @@ yarn install
 yarn global add sass
 yarn global add webpack-cli
 
-which yum && {
-  echo setup centos
-  sudo yum install openssl-devel rsync gettext -y
-
-  # SSH setup
-  sudo yum -y install openssh-clients
-}
-
-which apt-get && {
-  echo setup debian
-  sudo apt-get update
-  sudo apt-get install -y gettext-base rsync libssl-dev gettext
-
-  # SSH setup
-  which ssh-agent || (sudo apt-get install -qq openssh-client)
-}
 
 # Git setup
 git config --global core.pager "less -d"
-
-
 
 # Drupal CI
 [ "$1" != "quick" ] && {
