@@ -1,12 +1,11 @@
 #!/bin/bash
 
 # Allow global install
-sudo chown $USER /usr/local /usr/local/bin
+sudo -n true
+SUDOABLE=$?
+[ "$SUDOABLE" == "0" ] && sudo chown $USER /usr/local /usr/local/bin
 
 # Store all environments
-
-
-pwd
 DEPLOYDIR=${DEPLOYDIR:-"${PWD}"}
 mkdir -p $DEPLOYDIR
 # cd $DEPLOYDIR
@@ -20,7 +19,7 @@ source ~/.bashrc
 export DEBIAN_FRONTEND="noninteractive"
 
 # Update libs
-which yum && {
+[ "$SUDOABLE" == "0" ] && which yum && {
   echo setup centos
   sudo yum install openssl-devel rsync gettext -y
   sudo yum update curl nss nss-util nspr -y
@@ -29,7 +28,7 @@ which yum && {
   sudo yum -y install openssh-clients
 }
 
-which apt-get && {
+[ "$SUDOABLE" == "0" ] && which apt-get && {
   echo setup debian
   sudo apt-get update
   sudo apt-get install -y gettext-base rsync libssl-dev gettext
