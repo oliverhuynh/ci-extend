@@ -13,6 +13,7 @@ source ~/.bashrc
 source ./.env
 # Alway envrefresh
 envrefresh
+source ./.env
 
 
 DRUSH=${DRUSH:-"drush"}
@@ -21,10 +22,6 @@ COMPOSER=${COMPOSER:-"composer"}
 # @TODO: Move to ci-extend
 export GIT_PAGER=/bin/cat
 
-importconfig() {
-  ${DRUSH} cache-rebuild
-  ${DRUSH} cim --preview=diff $1
-}
 
 
 lib() {
@@ -51,6 +48,14 @@ solr() {
   $DRUSH cron
 }
 
+[[ "$(type -t $1)" == 'function' ]] &&  {
+  callback=$1
+  shift
+  errecho "Executing $callback"
+  $callback
+  exit $?
+}
+
 [[ "$1" == "--solr" ]] && {
   solr
   exit $?
@@ -62,7 +67,7 @@ solr() {
 }
 
 [[ "$1" == "--config" ]] && {
-  importconfig $2
+  configimport $2
   exit $?
 }
 
@@ -86,18 +91,31 @@ solr() {
   
   # Verify latest lang
   CONFIGEXPORT="langexport"
-  CONFIGFOLDER="locale"
+  CONFIGCHECKENV=""
   export -f langexport
-  ct=$(checkconfig $FORCE)
+  CONFIGFOLDER="locale"
+  checkconfig $FORCE
   isFine=$?
 
   # Verify latest config
-  CONFIGEXPORT="${DRUSH} cex -y"
-  CONFIGFOLDER="config"
-  ct=$(checkconfig $FORCE)
+  CONFIGEXPORT="configexport"
+  CONFIGCHECKENV="${CONFIG_ENV}"
+  export -f configexport
+  CONFIGFOLDER="config/sync"
+  checkconfig $FORCE
   isFine2=$?
+
+  # Verify latest content
+  CONFIGEXPORT="contentexport"
+  CONFIGCHECKENV=""
+  export -f contentexport
+  CONFIGFOLDER="config/content"
+  checkconfig $FORCE
+  isFine3=$?
+
   [[ "${isFine}" == "1" ]] && deploycancel && exit 1
   [[ "${isFine2}" == "1" ]] && deploycancel && exit 1
+  [[ "${isFine3}" == "1" ]] && deploycancel && exit 1
 
   gitfetch
   lib
@@ -107,11 +125,16 @@ solr() {
   ${DRUSH} cache-rebuild
   ${DRUSH} updatedb -y
 
-  [[ "${isFine2}" == "2" ]] && {
-    importconfig -y
-    # 2nd try 
-    importconfig -y
+  [[ "${isFine3}" == "2" ]] && {
+    contentimport
   }
+
+  [[ "${isFine2}" == "2" ]] && {
+    configimport -y
+    # 2nd try 
+    configimport -y
+  }
+
   [[ "$DEPLOY_IMPORT" != "" ]] && {
     dbimport
   }
