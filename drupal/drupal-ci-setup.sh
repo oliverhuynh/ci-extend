@@ -14,4 +14,3 @@ composer global require drupal/coder dealerdirect/phpcodesniffer-composer-instal
 composer global require --dev phpspec/prophecy-phpunit:*
 composer global require phpunit/phpunit:~9.0 --with-all-dependencies
 # composer require squizlabs/php_codesniffer:^2.7
-

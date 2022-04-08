@@ -1,7 +1,7 @@
 #!/bin/bash
 
 errecho() {
-  echo $@>&2
+  echo $@ >&2
 }
 
 envrefresh() {
@@ -91,7 +91,7 @@ langexport() {
   for val in ${LANGUAGES[@]}; do
     errecho Exporting$val
     ${DRUSH} langexp --langcodes=$val --file=$PWD/tmp/all-$val.po
-    msguniq -s $PWD/tmp/all-$val.po > $PWD/locale/all-$val.po
+    msguniq -s $PWD/tmp/all-$val.po >$PWD/locale/all-$val.po
   done
 }
 
@@ -110,9 +110,9 @@ verifyconfig() {
   local CONFIGALIAS
   CONFIGALIAS=""
   CONFIGALIAS=$(echo "$CONFIGFOLDER" | sed 's/\//_/g')
-  git fetch origin; 
-  git remote update origin --prune;
-  git fetch -p;
+  git fetch origin
+  git remote update origin --prune
+  git fetch -p
 
   # Check if previous conflict is fixed yet
   local conflict
@@ -133,7 +133,7 @@ verifyconfig() {
       echo $conflict
       return 2
     }
-  } 
+  }
 
   errecho Get changes from DB, verify the changes ${CONFIGFOLDER}
   ${CONFIGEXPORT}
@@ -165,40 +165,40 @@ storeconfig() {
   CONFIGALIAS=""
   CONFIGALIAS=$(echo "$CONFIGFOLDER" | sed 's/\//_/g')
   t=$(date +%s)
-  ${CONFIGEXPORT}>&2
-  git checkout -b dev.${t}>&2
-  git add ${CONFIGFOLDER:-"config"}>&2
-  git diff --cached ${CONFIGFOLDER:-"config"}>&2
+  ${CONFIGEXPORT} >&2
+  git checkout -b dev.${t} >&2
+  git add ${CONFIGFOLDER:-"config"} >&2
+  git diff --cached ${CONFIGFOLDER:-"config"} >&2
   [[ "${CONFIGCHECKENV}" != "" ]] && {
-    git add ${CONFIGFOLDER:-"config"}-${CONFIGCHECKENV}>&2
-    git diff --cached ${CONFIGFOLDER:-"config"}-${CONFIGCHECKENV}>&2
+    git add ${CONFIGFOLDER:-"config"}-${CONFIGCHECKENV} >&2
+    git diff --cached ${CONFIGFOLDER:-"config"}-${CONFIGCHECKENV} >&2
   }
-  git commit -m "Latest ${CONFIGALIAS:-"config"}">&2
-  git push origin dev.${t}>&2
-  git checkout ${DEPLOY_BRANCH}>&2
+  git commit -m "Latest ${CONFIGALIAS:-"config"}" >&2
+  git push origin dev.${t} >&2
+  git checkout ${DEPLOY_BRANCH} >&2
 
   echo dev.${t}
 }
 
 deploycancel() {
-    local conflicts
-    conflicts=($(cat tmp/conflict.* | xargs))
-    local ct
-    local tomerge
-    local toremove
-    for ct in ${conflicts[@]}; do
-      tomerge="git merge origin/${ct};$tomerge"
-      toremove="git push -d origin ${ct};$toremove"
-    done
-    errecho "Deploy is cancelled! There are changes in latest Aconfig. Please pull and merge from branch ${conflicts}! "
-    errecho "[NOTE] 1. Merge latest changes in production if needed"
-    errecho "git checkout ${DEPLOY_BRANCH}; git fetch origin; git pull origin ${DEPLOY_BRANCH}; ${tomerge}"
-    errecho "[NOTE] 2. Resolve for the CI to merge again and deploy!"
-    errecho "${toremove} git push origin ${DEPLOY_BRANCH}"
+  local conflicts
+  conflicts=($(cat tmp/conflict.* | xargs))
+  local ct
+  local tomerge
+  local toremove
+  for ct in ${conflicts[@]}; do
+    tomerge="git merge origin/${ct};$tomerge"
+    toremove="git push -d origin ${ct};$toremove"
+  done
+  errecho "Deploy is cancelled! There are changes in latest Aconfig. Please pull and merge from branch ${conflicts}! "
+  errecho "[NOTE] 1. Merge latest changes in production if needed"
+  errecho "git checkout ${DEPLOY_BRANCH}; git fetch origin; git pull origin ${DEPLOY_BRANCH}; ${tomerge}"
+  errecho "[NOTE] 2. Resolve for the CI to merge again and deploy!"
+  errecho "${toremove} git push origin ${DEPLOY_BRANCH}"
 }
 
 isFileChange() {
-  git diff --cached $1 | grep -v "Date: " | grep -v '^---'  | grep -v '^+++' | grep '^+' | head -n 1
+  git diff --cached $1 | grep -v "Date: " | grep -v '^---' | grep -v '^+++' | grep '^+' | head -n 1
 }
 
 checkconfig() {
@@ -212,11 +212,17 @@ checkconfig() {
   [ ! -d ${CONFIGFOLDER} ] && echo "CI is hardcoding ${CONFIGFOLDER}. Please use this to store config files!" && return 1
   local isChange
   isChange=""
-  isChange=$(git fetch origin; git diff --name-only origin/${DEPLOY_BRANCH} ${DEPLOY_BRANCH} | grep -e "^${CONFIGFOLDER}/.*" | head -n 1)
+  isChange=$(
+    git fetch origin
+    git diff --name-only origin/${DEPLOY_BRANCH} ${DEPLOY_BRANCH} | grep -e "^${CONFIGFOLDER}/.*" | head -n 1
+  )
   local isChange2
   isChange2=""
   [[ "${CONFIGCHECKENV}" != "" ]] && {
-    isChange2=$(git fetch origin; git diff --name-only origin/${DEPLOY_BRANCH} ${DEPLOY_BRANCH} | grep -e "^${CONFIGFOLDER}-${CONFIGCHECKENV}/.*" | head -n 1)
+    isChange2=$(
+      git fetch origin
+      git diff --name-only origin/${DEPLOY_BRANCH} ${DEPLOY_BRANCH} | grep -e "^${CONFIGFOLDER}-${CONFIGCHECKENV}/.*" | head -n 1
+    )
   }
   [[ "$isChange" == "" ]] && [[ "$isChange2" == "" ]] && return 0
   [[ "$FORCE" == "YES" ]] && echo "Forcing updating config" >&2 && return 2
@@ -224,16 +230,16 @@ checkconfig() {
   local isConfigLatest
   ct=$(verifyconfig)
   isConfigLatest=$?
-  [[ "${isConfigLatest}" == "2" ]] && { 
+  [[ "${isConfigLatest}" == "2" ]] && {
     ct=$(echo "$ct" | tail -n 1)
-    echo "$ct" > tmp/conflict.${CONFIGFOLDER}
+    echo "$ct" >tmp/conflict.${CONFIGFOLDER}
     return 1
   }
 
-  [[ "${isConfigLatest}" == "1" ]] && { 
+  [[ "${isConfigLatest}" == "1" ]] && {
     ct=$(storeconfig)
     [[ "$ct" == "" ]] && exit 1
-    echo "$ct" > tmp/conflict.${CONFIGFOLDER}
+    echo "$ct" >tmp/conflict.${CONFIGFOLDER}
     return 1
   }
 

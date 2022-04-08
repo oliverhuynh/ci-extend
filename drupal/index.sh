@@ -15,14 +15,11 @@ source ./.env
 envrefresh
 source ./.env
 
-
 DRUSH=${DRUSH:-"drush"}
 COMPOSER=${COMPOSER:-"composer"}
 
 # @TODO: Move to ci-extend
 export GIT_PAGER=/bin/cat
-
-
 
 lib() {
   ${COMPOSER} install
@@ -31,7 +28,7 @@ lib() {
 
 gitfetch() {
   [[ "$DEPLOY_BRANCH" == "" ]] && echo "Define DEPLOY_BRANCH please!" && return 1
-  git fetch origin 
+  git fetch origin
   git pull origin -X theirs ${DEPLOY_BRANCH}
   chmod +x ./scripts/pipelines/*.sh
   return 0
@@ -48,7 +45,7 @@ solr() {
   $DRUSH cron
 }
 
-[[ "$(type -t $1)" == 'function' ]] &&  {
+[[ "$(type -t $1)" == 'function' ]] && {
   callback=$1
   shift
   errecho "Executing $callback"
@@ -88,7 +85,7 @@ solr() {
     shift
     FORCE="YES"
   }
-  
+
   # Verify latest lang
   CONFIGEXPORT="langexport"
   CONFIGCHECKENV=""
@@ -120,7 +117,7 @@ solr() {
   gitfetch
   lib
   [[ "$DEPLOY_YARN" != "" ]] && {
-    yarn install; 
+    yarn install
   }
   ${DRUSH} cache-rebuild
   ${DRUSH} updatedb -y
@@ -131,7 +128,7 @@ solr() {
 
   [[ "${isFine2}" == "2" ]] && {
     configimport -y
-    # 2nd try 
+    # 2nd try
     configimport -y
   }
 

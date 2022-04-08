@@ -12,7 +12,6 @@ DRUSH=${DRUSH:-"drush"}
 COMPOSER=${COMPOSER:-"composer"}
 PATH="$PATH:$PWD/vendor/bin"
 
-
 [[ "$DEPLOY_BRANCH" == "" ]] && echo "Define DEPLOY_BRANCH please!" && exit 1
 
 [ "$1" == "--export" ] && {

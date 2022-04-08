@@ -13,12 +13,13 @@ export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer
 isFine=0
 phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme ./web/modules/custom
-isFine2=$?; [ "$isFine" == "0" ] && isFine="${isFine2}"
+isFine2=$?
+[ "$isFine" == "0" ] && isFine="${isFine2}"
 phpcs --standard=DrupalPractice --extensions=php,module,inc,install,test,profile,theme ./web/modules/custom
-isFine2=$?; [ "$isFine" == "0" ] && isFine="${isFine2}"
+isFine2=$?
+[ "$isFine" == "0" ] && isFine="${isFine2}"
 phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme --report=diff ./web/modules/custom
 phpcs --standard=DrupalPractice --extensions=php,module,inc,install,test,profile,theme --report=diff ./web/modules/custom
 
 [[ "$DEPLOYANYWAY" == "1" || "$isFine" == "0" ]] && echo "Good to go to next step now" && exit 0
 exit $isFine
-

@@ -4,8 +4,7 @@
 . ~/.bashrc
 . ./.env
 
-
-[[ "$DEPLOY_BRANCH" == "" ]] && echo "Define DEPLOY_BRANCH please!">&2 && exit 1
+[[ "$DEPLOY_BRANCH" == "" ]] && echo "Define DEPLOY_BRANCH please!" >&2 && exit 1
 t=$(date +%s)
 DRUSH=${DRUSH:-"drush"}
 ${DRUSH} cex -y
