@@ -5,6 +5,17 @@
   "license": "ISC",
   "main": "index.js",
   "name": "ci-extend",
+  "husky": {
+    "hooks": {
+      "pre-commit": "prototype --prettier && git add . --dry-run"
+    }
+  },
+  "devDependencies": {
+    "husky": "^4.2.3",
+    "prettier": "^2.3.1",
+    "prettier-plugin-sh": "^0.6.1",
+    "run-script-os": "^1.1.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/oliverhuynh/ci-extend.git"
