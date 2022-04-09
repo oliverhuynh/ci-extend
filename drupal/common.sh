@@ -207,6 +207,9 @@ checkconfig() {
   [[ "$1" == "YES" ]] && shift
   [[ "${CONFIGEXPORT}" == "" ]] && errecho "Define CONFIGEXPORT callback!" && return 1
   CONFIGFOLDER=${CONFIGFOLDER:-"config/sync"}
+  local CONFIGALIAS
+  CONFIGALIAS=""
+  CONFIGALIAS=$(echo "$CONFIGFOLDER" | sed 's/\//_/g')
 
   # Check if there is config files changes
   [ ! -d ${CONFIGFOLDER} ] && echo "CI is hardcoding ${CONFIGFOLDER}. Please use this to store config files!" && return 1
@@ -232,14 +235,14 @@ checkconfig() {
   isConfigLatest=$?
   [[ "${isConfigLatest}" == "2" ]] && {
     ct=$(echo "$ct" | tail -n 1)
-    echo "$ct" >tmp/conflict.${CONFIGFOLDER}
+    echo "$ct" >tmp/conflict.${CONFIGALIAS}
     return 1
   }
 
   [[ "${isConfigLatest}" == "1" ]] && {
     ct=$(storeconfig)
     [[ "$ct" == "" ]] && exit 1
-    echo "$ct" >tmp/conflict.${CONFIGFOLDER}
+    echo "$ct" >tmp/conflict.${CONFIGALIAS}
     return 1
   }
 
