@@ -67,6 +67,58 @@ configimport() {
   separate_config_import restore
 }
 
+uuidimport() {
+  local uuid
+  uuid=$1
+  shift
+  local exporteduuids
+  exporteduuids="$@"
+  exporteduuids=${exporteduuids:-"NOTHING"}
+  exporteduuids="$exporteduuids|$uuid"
+  local uuids
+  uuids=''
+  local ruuids
+  uuids=''
+  local val
+  val=''
+  ${DRUSH} csi --uuids=$uuid -y
+  # Find dependencies our way
+  f=$(find config/content -type f -name '*'$uuid'.yml')
+  ruuids=($(cat $f | yq '._content_sync.entity_dependencies.paragraph' | grep paragraph | cut -d '.' -f 3 | cut -d '"' -f 1 | grep -vE "$exporteduuids"))
+
+  for val in ${ruuids[@]}; do
+    errecho "Importing$val"
+    exporteduuids="$exporteduuids|$val"
+    uuidimport $val "${exporteduuids}"
+  done
+}
+
+uuidexport() {
+  local uuid
+  uuid=$1
+  shift
+  local exporteduuids
+  exporteduuids="$@"
+  exporteduuids=${exporteduuids:-"NOTHING"}
+  exporteduuids="$exporteduuids|$uuid"
+  local uuids
+  uuids=''
+  local ruuids
+  uuids=''
+  local val
+  val=''
+  ${DRUSH} cse --uuids=$uuid -y
+  # Find dependencies our way
+  f=$(find config/content -type f -name '*'$uuid'.yml')
+  ruuids=($(cat $f | yq '._content_sync.entity_dependencies.paragraph' | grep paragraph | cut -d '.' -f 3 | cut -d '"' -f 1 | grep -vE "$exporteduuids"))
+
+  for val in ${ruuids[@]}; do
+    errecho "Importing$val"
+    exporteduuids="$exporteduuids|$val"
+    uuidexport $val "${exporteduuids}"
+  done
+}
+
 contentexport() {
   [[ "${CONTENTS[@]}" == "" ]] && errecho "CONTENTS deployment is skipped!" && return 0
   local f
@@ -85,11 +137,7 @@ contentexport() {
 
     errecho "--include-dependencies is buggy of content_sync so we made a new choice"
     [[ "$uuid" != "" ]] && {
-      ${DRUSH} cse --entity-types=$val --uuids=$uuid -y
-      # Find dependencies our way
-      f=$(find config/content -type f -name '*'$uuid'.yml')
-      uuids=$(cat $f | yq '._content_sync.entity_dependencies.paragraph' | grep paragraph | cut -d '.' -f 3 | cut -d '"' -f 1 | tr '\n' ',')
-      ${DRUSH} cse --entity-types=paragraph --uuids=$uuids -y
+      uuidexport $uuid 
     }
     [[ "$uuid" == "" ]] && {
       ${DRUSH} cse --entity-types=$val -y
@@ -113,11 +161,7 @@ contentimport() {
     errecho "Importing$val"
     errecho "--include-dependencies is buggy of content_sync so we made a new choice"
     [[ "$uuid" != "" ]] && {
-      ${DRUSH} csi --entity-types=$val --uuids=$uuid -y
-      # Find dependencies our way
-      f=$(find config/content -type f -name '*'$uuid'.yml')
-      uuids=$(cat $f | yq '._content_sync.entity_dependencies.paragraph' | grep paragraph | cut -d '.' -f 3 | cut -d '"' -f 1 | tr '\n' ',')
-      ${DRUSH} csi --entity-types=paragraph --uuids=$uuids -y
+      uuidimport $uuid
     }
     [[ "$uuid" == "" ]] && {
       ${DRUSH} csi --entity-types=$val -y
