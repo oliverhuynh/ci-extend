@@ -19,6 +19,10 @@ envrefresh() {
     errecho "cp env/$val $target"
     cp env/$val $target
   done
+  [[ -f env/all.env ]] && {
+    echo "" >> ./.env
+    cat env/all.env >> ./.env
+  }
 }
 
 separate_config_export() {
@@ -65,22 +69,59 @@ configimport() {
 
 contentexport() {
   [[ "${CONTENTS[@]}" == "" ]] && errecho "CONTENTS deployment is skipped!" && return 0
+  local f
+  f=''
+  local uuids
+  uuids=''
   local val
   val=''
+  local uuid
+  uuid=''
   mkdir config/content -p
   for val in ${CONTENTS[@]}; do
-    errecho Exporting$val
-    ${DRUSH} cse --entity-types=$val --include-dependencies -y
+    errecho "Exporting $val"
+    uuid=$(echo "$val|" | cut -d "|" -f 2)
+    val=$(echo "$val" | cut -d "|" -f 1)
+
+    errecho "--include-dependencies is buggy of content_sync so we made a new choice"
+    [[ "$uuid" != "" ]] && {
+      ${DRUSH} cse --entity-types=$val --uuids=$uuid -y
+      # Find dependencies our way
+      f=$(find config/content -type f -name '*'$uuid'.yml')
+      uuids=$(cat $f | yq '._content_sync.entity_dependencies.paragraph' | grep paragraph | cut -d '.' -f 3 | cut -d '"' -f 1 | tr '\n' ',')
+      ${DRUSH} cse --entity-types=paragraph --uuids=$uuids -y
+    }
+    [[ "$uuid" == "" ]] && {
+      ${DRUSH} cse --entity-types=$val -y
+    }
   done
 }
 
 contentimport() {
   [[ "${CONTENTS[@]}" == "" ]] && errecho "CONTENTS deployment is skipped!" && return 0
+  local f
+  f=''
+  local uuids
+  uuids=''
   local val
   val=''
+  local uuid
+  uuid=''
   for val in ${CONTENTS[@]}; do
-    errecho Importing$val
-    ${DRUSH} csi --entity-types=$val -y
+    uuid=$(echo "$val|" | cut -d "|" -f 2)
+    val=$(echo "$val" | cut -d "|" -f 1)
+    errecho "Importing$val"
+    errecho "--include-dependencies is buggy of content_sync so we made a new choice"
+    [[ "$uuid" != "" ]] && {
+      ${DRUSH} csi --entity-types=$val --uuids=$uuid -y
+      # Find dependencies our way
+      f=$(find config/content -type f -name '*'$uuid'.yml')
+      uuids=$(cat $f | yq '._content_sync.entity_dependencies.paragraph' | grep paragraph | cut -d '.' -f 3 | cut -d '"' -f 1 | tr '\n' ',')
+      ${DRUSH} csi --entity-types=paragraph --uuids=$uuids -y
+    }
+    [[ "$uuid" == "" ]] && {
+      ${DRUSH} csi --entity-types=$val -y
+    }
   done
 }
 
