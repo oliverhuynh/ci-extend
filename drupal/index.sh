@@ -53,7 +53,7 @@ solr() {
   callback=$1
   shift
   errecho "Executing $callback"
-  $callback
+  $callback $@
   exit $?
 }
 

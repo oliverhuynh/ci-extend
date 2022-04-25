@@ -68,54 +68,100 @@ configimport() {
 }
 
 uuidimport() {
+  [ "$1" == "--force" ] && shift && echo "" > tmp/uuids
   local uuid
   uuid=$1
   shift
-  local exporteduuids
-  exporteduuids="$@"
-  exporteduuids=${exporteduuids:-"NOTHING"}
-  exporteduuids="$exporteduuids|$uuid"
   local uuids
-  uuids=''
-  local ruuids
   uuids=''
   local val
   val=''
-  ${DRUSH} csi --uuids=$uuid -y
+  cat tmp/uuids | grep $uuid && return 
+  echo $uuid >> tmp/uuids
   # Find dependencies our way
   f=$(find config/content -type f -name '*'$uuid'.yml')
-  ruuids=($(cat $f | yq '._content_sync.entity_dependencies.paragraph' | grep paragraph | cut -d '.' -f 3 | cut -d '"' -f 1 | grep -vE "$exporteduuids"))
+  local ruuids
+  ruuids=''
+  ruuids=($(relateduuids "$f"))
 
   for val in ${ruuids[@]}; do
     errecho "Importing$val"
-    exporteduuids="$exporteduuids|$val"
-    uuidimport $val "${exporteduuids}"
+    uuidimport $val
+  done
+  ${DRUSH} csi --uuids=$uuid -y
+}
+
+exporteduuids() {
+  (echo NOTHING; cat tmp/uuids) | grep -vE '^\s*?$' | tr '\n' '|' | sed 's/.$//'
+}
+
+relateduuids() {
+  local f
+  f=$1
+  shift
+  [ "$f" == "" ] && return
+  local ruuids2
+  ruuids2=''
+
+  local ruuids
+  ruuids=''
+
+  ruuids2=($(cat $f | yq '._content_sync.entity_dependencies.paragraph' | grep paragraph | cut -d '.' -f 3 | cut -d '"' -f 1 | uniq | grep -vE "$(exporteduuids)"))
+  #  | grep -vF 'target_type: user'
+  ruuids=($(cat $f | grep target_uuid -B 1 | xargs -n3 -d '\n' | cut -d':' -f 3 | cut -d ' ' -f2 | uniq | grep -vE "$(exporteduuids)") "${ruuids2[@]}")
+  echo "${ruuids[@]}" | tr -s ' ' | xargs
+}
+
+entitytypesimport() {
+  local val
+  local ttype
+  ttype=$1
+  local ruuids
+  ruuids=''
+  ruuids=($(find config/content/entities/$ttype -type f | rev | cut -d '.' -f 2 | rev))
+  val=""
+  for val in ${ruuids[@]}; do
+    errecho "Exporting$val"
+    uuidimport $val
+  done
+  ${DRUSH} csi --entity-types=$ttype -y
+}
+
+entitytypesexport() {
+  local val
+  val=$1
+  ${DRUSH} cse --entity-types=$val -y
+  local ruuids
+  ruuids=''
+  ruuids=($(find config/content/entities/$val -type f | rev | cut -d '.' -f 2 | rev))
+  val=""
+  for val in ${ruuids[@]}; do
+    errecho "Exporting$val"
+    uuidexport $val
   done
 }
 
 uuidexport() {
+  [ "$1" == "--force" ] && shift && echo "" > tmp/uuids
   local uuid
   uuid=$1
   shift
-  local exporteduuids
-  exporteduuids="$@"
-  exporteduuids=${exporteduuids:-"NOTHING"}
-  exporteduuids="$exporteduuids|$uuid"
   local uuids
-  uuids=''
-  local ruuids
   uuids=''
   local val
   val=''
   ${DRUSH} cse --uuids=$uuid -y
+  cat tmp/uuids | grep $uuid && return 
+  echo $uuid >> tmp/uuids
   # Find dependencies our way
   f=$(find config/content -type f -name '*'$uuid'.yml')
-  ruuids=($(cat $f | yq '._content_sync.entity_dependencies.paragraph' | grep paragraph | cut -d '.' -f 3 | cut -d '"' -f 1 | grep -vE "$exporteduuids"))
+  local ruuids
+  ruuids=''
+  ruuids=($(relateduuids "$f"))
 
   for val in ${ruuids[@]}; do
-    errecho "Importing$val"
-    exporteduuids="$exporteduuids|$val"
-    uuidexport $val "${exporteduuids}"
+    errecho "Exporting$val"
+    uuidexport $val
   done
 }
 
@@ -125,27 +171,52 @@ contentexport() {
   f=''
   local uuids
   uuids=''
-  local val
-  val=''
   local uuid
   uuid=''
   mkdir config/content -p
+  local val
+  val=''
   for val in ${CONTENTS[@]}; do
     errecho "Exporting $val"
     uuid=$(echo "$val|" | cut -d "|" -f 2)
     val=$(echo "$val" | cut -d "|" -f 1)
 
     errecho "--include-dependencies is buggy of content_sync so we made a new choice"
+    echo "" > tmp/uuids
     [[ "$uuid" != "" ]] && {
       uuidexport $uuid 
     }
     [[ "$uuid" == "" ]] && {
-      ${DRUSH} cse --entity-types=$val -y
+      entitytypesexport $val
     }
+  done
+  uuidsexport
+}
+
+uuidsexport() {
+  local uuids
+  uuids=($(cat config/content/uuids))
+  local val
+  val=''
+  for val in ${uuids[@]}; do
+    errecho "Exporting $val"
+    uuidexport $val 
+  done
+}
+
+uuidsimport() {
+  local uuids
+  uuids=($(cat config/content/uuids))
+  local val
+  val=''
+  for val in ${uuids[@]}; do
+    errecho "Importing $val"
+    uuidimport $val 
   done
 }
 
 contentimport() {
+  uuidsimport
   [[ "${CONTENTS[@]}" == "" ]] && errecho "CONTENTS deployment is skipped!" && return 0
   local f
   f=''
@@ -160,11 +231,12 @@ contentimport() {
     val=$(echo "$val" | cut -d "|" -f 1)
     errecho "Importing$val"
     errecho "--include-dependencies is buggy of content_sync so we made a new choice"
+    echo "" > tmp/uuids
     [[ "$uuid" != "" ]] && {
       uuidimport $uuid
     }
     [[ "$uuid" == "" ]] && {
-      ${DRUSH} csi --entity-types=$val -y
+      entitytypesimport $val
     }
   done
 }
