@@ -11,5 +11,5 @@ cd $t && eval ${COMPILE} && cd $t && eval ${MORECOMPILE}
 ret=$?
 cd $t
 [ ! -d tmp ] && mkdir tmp
-echo $ret >./tmp/build
+echo $ret >./tmp/build.ret
 exit $ret
