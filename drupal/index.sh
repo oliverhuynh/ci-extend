@@ -26,6 +26,10 @@ lib() {
   [[ ! -d web/libraries/tabby ]] && ${DRUSH} webform:libraries:download
 }
 
+build() {
+  ${SCRIPTPATH2}/drupal/build.sh
+}
+
 gitfetch() {
   [[ "$DEPLOY_BRANCH" == "" ]] && echo "Define DEPLOY_BRANCH please!" && return 1
   git fetch origin
