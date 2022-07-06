@@ -78,17 +78,15 @@ cd [YOUR drupal-docker project with .env]
 
 # TARGET is where you're running gitlab runner
 
-export TARGET=cc-local2.jufist.org export CI_EXTENDPATH=~/projects/ci-extend
-export MYAPP_IMAGE=marcelovani/drupalci:9-apache-interactive export
-CI_IMAGE=ci-extend/drupalci:9-apache-interactive
+export TARGET=cc-local2.jufist.org export CI_EXTENDPATH=~/projects/ci-extend export
+MYAPP_IMAGE=marcelovani/drupalci:9-apache-interactive export CI_IMAGE=ci-extend/drupalci:9-apache-interactive
 ${CI_EXTENDPATH:-"."}/make/dockerfile
 
 ```
 - Add the docker policy to your gitlab runner as https://stackoverflow.com/a/43481746
 ```
 
-vi /etc/gitlab-runner/config.toml [runners.docker] pull_policy =
-"if-not-present"
+vi /etc/gitlab-runner/config.toml [runners.docker] pull_policy = "if-not-present"
 
 ```
 $DRUSH csi --entity-types=menu_link_content
