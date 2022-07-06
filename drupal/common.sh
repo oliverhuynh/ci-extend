@@ -69,6 +69,12 @@ configimport() {
 
 uuidimport() {
   [ "$1" == "--force" ] && shift && echo "" > tmp/uuids
+  local level
+  level=$1
+  [ "${#level}" -lt "5" ] && shift 
+  [ "${#level}" -gt "5" ] && level=0
+  local nl
+  nl=$((level+1))
   local uuid
   uuid=$1
   shift
@@ -76,7 +82,7 @@ uuidimport() {
   uuids=''
   local val
   val=''
-  cat tmp/uuids | grep $uuid && return 
+  cat tmp/uuids | grep $uuid >/dev/null && return 
   echo $uuid >> tmp/uuids
   # Find dependencies our way
   f=$(find config/content -type f -name '*'$uuid'.yml')
@@ -84,11 +90,16 @@ uuidimport() {
   ruuids=''
   ruuids=($(relateduuids "$f"))
 
+  # Do importing all recusrivefinally
+  [[ "${ruuids[@]}" != "" ]] && ${DRUSH} csi --uuids=$(IFS=, ; echo "${ruuids[*]}") -y
+
+  echo "${ruuids[@]}" >> tmp/uuids
+
   for val in ${ruuids[@]}; do
-    errecho "Importing$val"
+    # errecho "Importing$val"
     uuidimport $val
   done
-  ${DRUSH} csi --uuids=$uuid -y
+  [ "${level}" == "0" ] && ${DRUSH} csi --uuids=$uuid -y
 }
 
 exporteduuids() {
@@ -143,6 +154,12 @@ entitytypesexport() {
 
 uuidexport() {
   [ "$1" == "--force" ] && shift && echo "" > tmp/uuids
+  local level
+  level=$1
+  [ "${#level}" -lt "5" ] && shift 
+  [ "${#level}" -gt "5" ] && level=0
+  local nl
+  nl=$((level+1))
   local uuid
   uuid=$1
   shift
@@ -150,8 +167,8 @@ uuidexport() {
   uuids=''
   local val
   val=''
-  ${DRUSH} cse --uuids=$uuid -y
-  cat tmp/uuids | grep $uuid && return 
+  [ "${level}" == "0" ] && ${DRUSH} cse --uuids=$uuid -y
+  cat tmp/uuids | grep $uuid >/dev/null && return 
   echo $uuid >> tmp/uuids
   # Find dependencies our way
   f=$(find config/content -type f -name '*'$uuid'.yml')
@@ -159,10 +176,17 @@ uuidexport() {
   ruuids=''
   ruuids=($(relateduuids "$f"))
 
+  # Do exporting all recusrivefinally
+  [[ "${ruuids[@]}" != "" ]] && ${DRUSH} cse --uuids=$(IFS=, ; echo "${ruuids[*]}") -y
+  echo "${ruuids[@]}" >> tmp/uuids
+
+  local all=($uuid)
   for val in ${ruuids[@]}; do
-    errecho "Exporting$val"
-    uuidexport $val
+    # errecho "Exporting$val"
+    uuidexport $nl $val
   done
+
+
 }
 
 contentexport() {
