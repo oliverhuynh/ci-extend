@@ -4,6 +4,15 @@ errecho() {
   echo $@ >&2
 }
 
+compile() {
+  local f
+  for f in web/*/custom/*; do
+    ls $f/package.json 2>/dev/null >/dev/null || continue
+    echo "---- COMPILING $f -----"
+    (cd $f; yarn compile;)
+  done
+}
+
 envrefresh() {
   local target
   local ENVFILES
