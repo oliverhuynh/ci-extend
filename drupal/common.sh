@@ -4,13 +4,30 @@ errecho() {
   echo $@ >&2
 }
 
-compile() {
+docustom() {
+  local msg validate action validateaction
+  msg=$1
+  validate=$2
+  action=$3
   local f
   for f in web/*/custom/*; do
-    ls $f/package.json 2>/dev/null >/dev/null || continue
-    echo "---- COMPILING $f -----"
-    (cd $f; yarn compile;)
+    validateaction=$(echo "$validate" | sed "s|WORKDIR|$f|g")
+    eval "$validateaction" 2>/dev/null >/dev/null || continue
+    echo $validateaction
+    echo "---- $msg $f -----"
+    (cd $f; eval "$action";)
   done
+}
+
+compile() {
+  local ACTION
+  docustom "COMPILING" "ls WORKDIR/package.json" "yarn compile"
+  # docustom "COMPILING" "~/projects/prototype/bin/index.sh --prettier"
+}
+
+linter() {
+  local ACTION
+  docustom "LINTER" "ls ~" "~/projects/prototype/bin/index.sh --prettier"
 }
 
 envrefresh() {
