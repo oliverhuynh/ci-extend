@@ -23,7 +23,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "1.0.24",
+  "version": "1.0.25",
   "dependencies": {
     "oliver-framework": "https://github.com/jufist/oliver-framework"
   },
